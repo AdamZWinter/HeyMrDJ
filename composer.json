@@ -1,0 +1,23 @@
+{
+  "name": "SDEV328/hello",
+  "authors": [
+    {
+      "name": "Adam Winter",
+      "email": "winter.adam@student.greenriver.edu"
+    },
+    {
+      "name": "Britany Torres",
+      "email": "unkown@student.greenriver.edu"
+    },
+    {
+      "name": "Gavin Sherman",
+      "email": "unkown2@student.greenriver.edu"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "3.*"
+  }
+}

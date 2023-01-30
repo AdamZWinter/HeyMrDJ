@@ -1,0 +1,87 @@
+/*
+*********************  style.css  Site-Wide *****************************************************************
+*/
+
+:root {
+    --myPurple: 8, 0, 24;
+    --purpleButton: 25, 0, 75;
+    --offWhite: 195, 210, 190, 1;
+    --backGrey: 40, 40, 40;
+    --linkBlue: 195, 210, 255, 1;
+}
+
+/* a is between zero and one. */
+
+.myPurple {
+    /*This isn't doing anything right now.*/
+    background-color: rgba(var(--myPurple), 0.70);
+}
+
+/*body id= grad1 */
+html, body {
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+html {
+    min-height: 100%;
+}
+
+#grad1 {
+    /* Standard syntax (must be last) */
+    background-image: radial-gradient(circle at top left, rgba(60,60,60,1), rgba(var(--myPurple), 1));
+}
+
+img {
+    border: black 2px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+h1, h2, h3, h4, h5, p, li, label, hr{
+    color:white;
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+.btn-primary{
+    background-color: grey;
+}
+
+clear {
+    clear: both;
+    display: table;
+}
+
+a {
+    color: rgba(var(--offWhite));
+    text-decoration: none;
+    background: transparent;
+}
+
+a:hover {
+    color: grey;
+}
+
+/*
+************************  Footer *********************************************************************
+*/
+
+
+.footer-style{
+    background-image: radial-gradient(circle, rgba(var(--myPurple)), rgba(var(--offWhite)) );
+    font-family:sans-serif;
+    font-weight: 150;
+    font-size: large;
+    color: white;
+}
+
+.foot-link {
+    color: white !important;
+}
+
+.footerLinksBlack{
+    color:black;
+    white-space: nowrap;
+}

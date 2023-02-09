@@ -85,3 +85,8 @@ a:hover {
     color:black;
     white-space: nowrap;
 }
+ /*       Nav Bar Styles       */
+nav{
+    background-color: rgba(226,107,68,0.69) !important;
+
+}

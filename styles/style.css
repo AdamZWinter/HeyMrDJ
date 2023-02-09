@@ -85,16 +85,3 @@ a:hover {
     color:black;
     white-space: nowrap;
 }
- /*       Nav Bar Styles       */
-nav{
-    background-color: rgba(226,107,68,0.69);
-}
-
-/* Home Page Styles */
-.content-square{
-    background-color: rgba(202,240,248,0.77);
-    border: rgba(0,119,182,0.77) solid 2px;
-    border-radius: 3px;
-    text-align: center;
-}
-

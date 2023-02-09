@@ -8,6 +8,7 @@
     --offWhite: 195, 210, 190, 1;
     --backGrey: 40, 40, 40;
     --linkBlue: 195, 210, 255, 1;
+    --footerBottom: 60, 55, 80, 1;
 }
 
 /* a is between zero and one. */
@@ -22,13 +23,11 @@ html, body {
     font-family: Verdana, Geneva, sans-serif;
 }
 
-html {
-    min-height: 100%;
-}
-
 #grad1 {
     /* Standard syntax (must be last) */
-    background-image: radial-gradient(circle at top left, rgba(60,60,60,1), rgba(var(--myPurple), 1));
+    background: radial-gradient(circle at top left, rgba(60,60,60,1), rgba(var(--myPurple), 1));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 img {
@@ -70,7 +69,7 @@ a:hover {
 
 
 .footer-style{
-    background-image: radial-gradient(circle, rgba(var(--myPurple)), rgba(var(--offWhite)) );
+    background: linear-gradient(rgba(var(--myPurple)), rgba(var(--footerBottom)) );
     font-family:sans-serif;
     font-weight: 150;
     font-size: large;
@@ -82,6 +81,6 @@ a:hover {
 }
 
 .footerLinksBlack{
-    color:black;
+    color:white;
     white-space: nowrap;
 }

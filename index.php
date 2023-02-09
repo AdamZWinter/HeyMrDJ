@@ -23,6 +23,13 @@ $f3->route('GET /', function (){
     echo $view->render("views/home.html");
 });
 
+//Define a default home route
+$f3->route('GET /home', function (){
+    //Instantiate a view
+    $view = new Template();
+    echo $view->render("views/home.html");
+});
+
 //route to find a DJ page
 $f3->route('GET /eventSearch', function (){
     //Instantiate a view

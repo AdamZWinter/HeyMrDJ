@@ -87,7 +87,6 @@ a:hover {
 }
 
 /* Home Page styles */
-
-li{
-    list-style-type: none;
+.card{
+    border: blue 2px solid;
 }

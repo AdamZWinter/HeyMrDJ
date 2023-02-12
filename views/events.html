@@ -17,20 +17,16 @@
         <div class="col-8 col-sm-12" >
             <div class= "container-fluid">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-6 text-center">
                         <br>
+                        <!--                        TODO:  Add a search thing here-->
                         <h1 class="text-center">Events</h1>
-                        <h4>Find your event.</h4>
-                        <br>
-                    </div>
-
-                    <div class="col-6">
-                        <br>
-<!--                        TODO:  Add a search thing here-->
-                        <a role="button" class="btn btn-primary float-end"
+                        <input type="text" id="search" onkeyup="myFunction()" placeholder="Search.." title="Type in a category">
+                        <a role="button" class="btn btn-primary m-auto"
                            href="order1">
                             Search
                         </a>
+                        <p>populate search results here</p>
                         <br>
                     </div>
                 </div>
@@ -38,29 +34,19 @@
 
                 <div class="row">
 
-                    <div class="col-6">
-                        <br>
-                        <h1>About the Internship</h1>
-                        <hr>
-                        <p>We like to think you're going to learn a lot. The reality is, you're going to learn just how everything is hacked together.</p>
-                        <br>
-                    </div>
 
-                    <div class="col-6">
-                        <img class="img-fluid" src="images/techStack.png" alt="Picture of all the mascots of all the parts of a stack.">
-                        <br>
-                        <br>
-                    </div>
                 </div>
 
                 <div class="row">
                     <div class="col-6 text-center">
                         <br>
                         <h1>Find a DJ</h1>
+                        <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search.." title="Type in a category">
                         <a role="button" class="btn btn-primary m-auto"
                            href="order1">
                             Search
                         </a>
+                        <p>populate search results here</p>
                         <br>
                         <br>
                         <br>
@@ -70,6 +56,7 @@
                     </div>
 
                     <div class="col-6">
+                        <img class="img-fluid" src="images/DJDude.png" alt="Picture of all the mascots of all the parts of a stack.">
                         <br>
                         <br>
                     </div>

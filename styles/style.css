@@ -38,6 +38,7 @@ img {
 
 h1, h2, h3, h4, h5, p, li, label, hr{
     color:white;
+    text-align: center;
 }
 
 h1, h2, h3 {
@@ -83,4 +84,17 @@ a:hover {
 .footerLinksBlack{
     color:white;
     white-space: nowrap;
+}
+
+/* Home Page styles */
+.card{
+    border: blue 2px solid;
+}
+#home-img{
+    width: 475px !important;
+    height: 375px !important;
+}
+em{
+    color: white;
+    text-decoration: underline;
 }

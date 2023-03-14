@@ -29,33 +29,6 @@ $f3->route('GET /home', function (){ HomePage::get(); });
 $f3->route('GET /eventSearch', function (){ Events::get(); });
 $f3->route('GET /events', function (){ Events::get(); });
 
-//$f3->route('GET /', function (){
-//    //Instantiate a view
-//    $view = new Template();
-//    echo $view->render("views/home.html");
-//});
-
-//Define a default home route
-//$f3->route('GET /home', function (){
-//    //Instantiate a view
-//    $view = new Template();
-//    echo $view->render("views/home.html");
-//});
-
-//route to find a DJ page
-//$f3->route('GET /eventSearch', function (){
-//    //Instantiate a view
-//    $view = new Template();
-//    echo $view->render("views/events.html");
-//});
-
-//route to find a DJ page
-//$f3->route('GET /events', function (){
-//    //Instantiate a view
-//    $view = new Template();
-//    echo $view->render("views/events.html");
-//});
-
 //Run Fat Free
 $f3->run();
 

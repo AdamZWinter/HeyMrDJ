@@ -24,6 +24,12 @@ $f3->set('AUTOLOAD','controllers/');
 //Define a default route
 $f3->route('GET /', function (){ HomePage::get(); });
 $f3->route('GET /home', function (){ HomePage::get(); });
+$f3->route('GET /register', function () use ($f3) { HomePage::getRegister($f3); });
+$f3->route('POST /register', function () use ($f3) { HomePage::postRegister($f3); });
+$f3->route('GET /signIn', function () use ($f3) { HomePage::getSignIn($f3); });
+$f3->route('POST /signIn', function () use ($f3) { HomePage::postSignIn($f3); });
+
+$f3->route('GET /dashboard', function () use ($f3) { HomePage::get(); });
 
 // Event routes
 $f3->route('GET /eventSearch', function (){ Events::get(); });

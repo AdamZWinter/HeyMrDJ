@@ -18,9 +18,8 @@ class DataLayer
     function insertUser($user)
     {
         //$user = new User();
-        $sql = "INSERT INTO `users`(`id`, `fname`, `lname`, `email`, `phone`, `state`, `github`, 
-                                        `experience`, `relocate`, `bio`, `photo`, `mailing_lists_signup`, `mailing_lists_subscriptions`) 
-                    VALUES (null, :fname, :lname, :email, :phone, :state, :github, :experience, :relocate, :bio, :photo, :subscribed, :lists)";
+        $sql = "INSERT INTO `users`(`id`, `fname`, `lname`, `email`, `phone`, `state`, `photo`, `password`) 
+                    VALUES (null, :fname, :lname, :email, :phone, :state, :photo, :password)";
         $stmt = $this->_dbh->prepare($sql);
 
         $lname = $user->getFname();
@@ -28,26 +27,17 @@ class DataLayer
         $email = $user->getEmail();
         $phone = $user->getPhone();
         $state = $user->getState();
-        //$github = $user->getGithub();
-        //$experience = $user->getExperience();
-        //$relocate = $applicant->getRelocate() == 'yes' ? 1 : 0;
-        //$bio = $applicant->getBio();
         $photo = $user->getPhoto();
-        //$subscribed = is_a($applicant, Applicant_SubscribedToLists::class) ? 1 : 0;
-        //$lists = $subscribed ? $applicant->getListsString() : "none";
+        $password = $user->getPassword();
 
         $stmt->bindParam(':fname', $fname);
         $stmt->bindParam(':lname', $lname);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':phone', $phone);
         $stmt->bindParam(':state', $state);
-//        $stmt->bindParam(':github', $github);
-//        $stmt->bindParam(':experience', $experience);
-//        $stmt->bindParam(':relocate', $relocate);
-//        $stmt->bindParam(':bio', $bio);
-//        $stmt->bindParam(':photo', $photo);
-//        $stmt->bindParam(':subscribed', $subscribed);
-//        $stmt->bindParam(':lists', $lists);
+        $stmt->bindParam(':photo', $photo);
+        $stmt->bindParam(':password', $password);
+
 
         $stmt->execute();
         if($stmt->rowCount() == 1) {
@@ -95,6 +85,10 @@ class DataLayer
         $stmt = $this->_dbh->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
+        if($stmt->rowCount() != 1){
+            echo 'No such email address found';
+            exit;
+        }
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if($result['isDJ'] == 1) {
             $user = new DJ();
@@ -103,6 +97,18 @@ class DataLayer
         }
         $user->constructFromDatabase($result);
         return $user;
+    }
+
+    static function getStates()
+    {
+        $noKeys = array("Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Guam", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Minor Outlying Islands", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "U.S. Virgin Islands", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming");
+        $states = [];
+
+        for($i = 0; $i < count($noKeys); $i++){
+            //echo $states[$i].PHP_EOL;
+            $states[$i+1] = $noKeys[$i];
+        }
+        return $states;
     }
 
 }

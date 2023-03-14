@@ -1,0 +1,88 @@
+<!--register.html-->
+<!--Authors: Adam Winter -->
+<!--Date: 2023-3-14-->
+<!--Descriptions:  For new User registration-->
+
+<include href="views/header.html"></include>  <!--This is strictly F3 syntax-->
+
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="d-sm-none d-md-block col-2">
+      <!--
+      <h1>Left Margin</h1>
+      -->
+    </div>
+
+    <div class="col-8 col-sm-12" >
+      <div class= "container-fluid">
+        <!--    -----------------------------------            MAIN     ---------------------------------------------------  -->
+
+        <div class="row">
+
+          <div class="col-md-12 col-sm-12">
+            <br>
+            <h4>Sign In</h4>
+            <p>Welcome back.</p>
+            <br>
+            <hr>
+            <br>
+            <br>
+            <br>
+          </div>
+
+        </div><!-- end row -->
+
+
+
+        <!--    <form id = "order1" action="#" method="post">  ------  Using AJAX instead-->
+        <form id="personalInfo">
+          <div class="row">
+            <div class="col-md-1">
+              <br>
+            </div>
+
+            <div class="col-md-5 col-sm-12">
+              <label>Email:                    </label>
+              <input type="text" class= "form-control" id="email" name="email">
+              <br>
+
+            </div>
+
+            <div class="col-md-5 col-sm-12">
+
+              <label>Password:                    </label>
+              <input type="password" class= "form-control" id="password" name="password">
+              <br>
+              <br>
+              <div class="d-grid gap-2">
+                <button type="button" class="rounded nextButton btn-outline-primary" id="btnSignIn">Sign In</button>
+              </div>
+              <span id="submitFeedback"></span>
+
+            </div>
+
+            <div class="col-md-1">
+              <br>
+            </div>
+
+          </div><!-- end row -->
+        </form>
+
+        <!--    -----------------------------------       END MAIN     ---------------------------------------------------  -->
+      </div><!-- end inner container-->
+    </div> <!-- between margins column-->
+
+    <div class="d-sm-none d-md-block col-2">
+      <!--
+          <h1>Right Margin</h1>
+      -->
+    </div>
+
+  </div><!-- end row -->
+</div><!-- end container -->
+
+<!--My scripts-->
+<script src="JS/signIn.js"></script>
+
+<include href="views/footer.html"></include>  <!--This is strictly F3 syntax-->

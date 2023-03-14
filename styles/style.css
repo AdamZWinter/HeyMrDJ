@@ -8,7 +8,7 @@
     --offWhite: 195, 210, 190, 1;
     --backGrey: 40, 40, 40;
     --linkBlue: 195, 210, 255, 1;
-    --footerBottom: 60, 55, 80, 1;
+    --footerBottom: 8, 0, 24;
 }
 
 /* a is between zero and one. */
@@ -70,7 +70,7 @@ a:hover {
 
 
 .footer-style{
-    background: linear-gradient(rgba(var(--myPurple)), rgba(var(--footerBottom)) );
+    background: linear-gradient(rgba(var(--myPurple), .2), rgba(var(--myPurple), .5) );
     font-family:sans-serif;
     font-weight: 150;
     font-size: large;

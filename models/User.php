@@ -159,14 +159,14 @@ class User
      */
     public function setPassword($clearText)
     {
-        $peppered = $clearText.PEPPER;
+        $peppered = $clearText.$GLOBALS['PEPPER'];
         $pwHash = password_hash($peppered, PASSWORD_DEFAULT);
         $this->_password = $pwHash;
     }
 
     public function passwordVerified($clearText)
     {
-        $peppered = $clearText.PEPPER;
+        $peppered = $clearText.$GLOBALS['PEPPER'];
         return password_verify($peppered, $this->getPassword());
     }
 

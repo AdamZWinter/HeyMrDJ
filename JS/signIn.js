@@ -12,13 +12,12 @@ const personalInfoSubmit = function (){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var fail = false;
             let responseObj = JSON.parse(this.responseText);
             if(responseObj.error  == true){
                 document.querySelector("#submitFeedback").innerHTML = '<span class="text-danger">'+responseObj.message+'</span>';
             }else{
                 document.querySelector("#submitFeedback").innerHTML = responseObj.message;
-                document.location.href ="dashboard";
+                //document.location.href ="dashboard";
             }
         }else{
             document.querySelector("#submitFeedback").innerHTML = this.responseText;

@@ -35,6 +35,12 @@ $f3->route('GET /dashboard', function () use ($f3) { HomePage::get(); });
 $f3->route('GET /eventSearch', function (){ Events::get(); });
 $f3->route('GET /events', function (){ Events::get(); });
 
+//Defines route to error page
+$f3->route('GET /error', function () {
+    $view = new Template();
+    echo $view->render("views/error.html");
+});
+
 //Run Fat Free
 $f3->run();
 

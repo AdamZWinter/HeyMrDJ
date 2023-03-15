@@ -38,10 +38,10 @@ class HomePage
      */
     static function postRegister($f3)
     {
-        $obj = new stdClass();
-        $obj->error = false;
+        $responseObj = new stdClass();
+        $responseObj->error = false;
 
-        $postedObject = new PostedObj($_POST['JSONpayload'], $obj);
+        $postedObject = new PostedObj($_POST['JSONpayload'], $responseObj);
 
         $postedObject->validName();
         $postedObject->validEmail();
@@ -59,7 +59,7 @@ class HomePage
         $user->setState($userObjJSON->state);
         $user->setPassword($userObjJSON->password);
 
-        $dataLayer = new DataLayer();
+        $dataLayer = new DataLayer($responseObj);
         $dataLayer->insertUser($user);
 
         unset($userObjJSON);
@@ -67,14 +67,14 @@ class HomePage
 
 //        $_SESSION["user"] = $user;  //only after sign in
 
-        setcookie('fname', $_SESSION["fname"]);
-        setcookie('lname', $_SESSION["lname"]);
-        setcookie('email', $_SESSION["email"]);
-        setcookie('phone', $_SESSION["phone"]);
-        setcookie('state', $_SESSION["state"]);
+//        setcookie('fname', $_SESSION["fname"]);
+//        setcookie('lname', $_SESSION["lname"]);
+//        setcookie('email', $_SESSION["email"]);
+//        setcookie('phone', $_SESSION["phone"]);
+//        setcookie('state', $_SESSION["state"]);
 
         //respond to the client
-        echo json_encode($postedObject->getObj());
+        echo json_encode($responseObj);
         unset($postedObject);
     }
 
@@ -97,18 +97,23 @@ class HomePage
      */
     static function postSignIn($f3)
     {
-        $obj = new stdClass();
-        $obj->error = false;
+        $responseObj = new stdClass();
+        $responseObj->error = false;
 
-        $postedObject = new PostedObj($_POST['JSONpayload'], $obj);
+        $postedObject = new PostedObj($_POST['JSONpayload'], $responseObj);
         $email = $postedObject->validEmail();
 
-        $dataLayer = new DataLayer();
+        $dataLayer = new DataLayer($responseObj);
         $user = $dataLayer->getUserByEmail($email);
-        echo var_dump($user);
+
+        // for testing
+        //$responseObj->error = true;
+        //$responseObj->message = 'Testing: '.$responseObj->message. '  Email: '.$email;
+        //var_dump($user);
 
         //respond to the client
-        //echo json_encode($postedObject->getObj());
+        //var_dump($responseObj);
+        echo json_encode($responseObj);
         unset($postedObject);
     }
 

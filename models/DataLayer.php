@@ -2,16 +2,34 @@
 
 class DataLayer
 {
-
+    protected $_responseObj;
     private $_dbh;
-    function __construct()
+    function __construct($stdClassObj = null)
     {
+        if($stdClassObj == null){
+            $this->_responseObj = new stdClass();
+            $this->_responseObj->error = false;
+        }else if(!is_a($stdClassObj, stdClass::class)){
+            $this->_responseObj->error = true;
+            $this->_responseObj->message = 'You can only pass an object of type stdClass to DataLayer';
+            echo json_encode($this->_responseObj);
+            exit;
+        }else{
+            $this->_responseObj = $stdClassObj;
+        }
+
         include $_SERVER['HOME'].'/conf.php';
         try {
             $this->_dbh = new PDO(DB_DRIVER, DB_USER, PASSWORD);
+            $this->_responseObj->dbh = 'DB connection successful.';
+            $this->_responseObj->message = 'DB connection successful.';
             //echo 'DB connection successful.';
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            //echo $e->getMessage();
+            $this->_responseObj->error = true;
+            $this->_responseObj->message = 'Failed to open database connection: '.$e->getMessage();
+            echo json_encode($this->_responseObj);
+            exit;
         }
     }
 
@@ -41,12 +59,15 @@ class DataLayer
 
         $stmt->execute();
         if($stmt->rowCount() == 1) {
+            $this->_responseObj->message = $this->_responseObj->message."  Successfully inserted new user.";
             return $this->_dbh->lastInsertId();
         }else{
-            var_dump($stmt->errorInfo());
-            return -1;
+            $this->_responseObj->error = true;
+            $this->_responseObj->errorInfo = $stmt->errorInfo();
+            $this->_responseObj->message = 'Failed to insert new user to database: Error info available as array in errorInfo key ';
+            echo json_encode($this->_responseObj);
+            exit;
         }
-
     }
 
     function getAllUserIDs()
@@ -85,8 +106,26 @@ class DataLayer
         $stmt = $this->_dbh->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
+        //https://www.php.net/manual/en/pdo.errorinfo.php
+        $errorInfo = $stmt->errorInfo();
+        if($errorInfo[0] != "00000"){
+            //var_dump($stmt->errorInfo());
+            $this->_responseObj->error = true;
+            $this->_responseObj->message = 'DB error: ';
+            if($errorInfo[1]){
+                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[1];
+            }
+            if($errorInfo[2]){
+                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[2];
+            }
+            echo json_encode($this->_responseObj);
+            exit;
+        }
         if($stmt->rowCount() != 1){
-            echo 'No such email address found';
+            $this->_responseObj->error = false;
+            $this->_responseObj->message = 'No such email address found';
+            $this->_responseObj->emailExists = false;
+            echo json_encode($this->_responseObj);
             exit;
         }
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -96,6 +135,7 @@ class DataLayer
             $user = new User();
         }
         $user->constructFromDatabase($result);
+        $this->_responseObj->message = $this->_responseObj->message."  Successfully constructed user.";
         return $user;
     }
 

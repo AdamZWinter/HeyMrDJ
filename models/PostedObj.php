@@ -1,7 +1,7 @@
 <?php
 class PostedObj
 {
-    protected $decodedObj;  //The object sent from the client
+    protected $decodedObj;  //The decoded object sent from the client
     protected $obj;         //The object that will be json encoded and returned to the client.
     function __construct($JSONpayload, $obj)
     {
@@ -54,6 +54,7 @@ class PostedObj
             echo json_encode($this->obj);
             exit;
         }
+        $this->obj->validEmail = true;
         return $this->decodedObj->email;
     }
 

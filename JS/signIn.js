@@ -17,7 +17,7 @@ const personalInfoSubmit = function (){
                 document.querySelector("#submitFeedback").innerHTML = '<span class="text-danger">'+responseObj.message+'</span>';
             }else{
                 document.querySelector("#submitFeedback").innerHTML = responseObj.message;
-                //document.location.href ="dashboard";
+                document.location.href ="dashboard";
             }
         }else{
             document.querySelector("#submitFeedback").innerHTML = this.responseText;

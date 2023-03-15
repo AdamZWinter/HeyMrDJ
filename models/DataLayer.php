@@ -139,6 +139,38 @@ class DataLayer
         return $user;
     }
 
+    function getPasswordByEmail($email)
+    {
+        $sql = "SELECT `password` FROM users WHERE `email` = :email";
+        $stmt = $this->_dbh->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        //https://www.php.net/manual/en/pdo.errorinfo.php
+        $errorInfo = $stmt->errorInfo();
+        if($errorInfo[0] != "00000"){
+            //var_dump($stmt->errorInfo());
+            $this->_responseObj->error = true;
+            $this->_responseObj->message = 'DB error: ';
+            if($errorInfo[1]){
+                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[1];
+            }
+            if($errorInfo[2]){
+                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[2];
+            }
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+        if($stmt->rowCount() != 1){
+            $this->_responseObj->error = false;
+            $this->_responseObj->message = 'No such email address found';
+            $this->_responseObj->emailExists = false;
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['password'];
+    }
+
     static function getStates()
     {
         $noKeys = array("Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Guam", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Minor Outlying Islands", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "U.S. Virgin Islands", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming");

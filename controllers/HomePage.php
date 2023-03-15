@@ -65,14 +65,6 @@ class HomePage
         unset($userObjJSON);
         $_POST['JSONpayload'] = null;
 
-//        $_SESSION["user"] = $user;  //only after sign in
-
-//        setcookie('fname', $_SESSION["fname"]);
-//        setcookie('lname', $_SESSION["lname"]);
-//        setcookie('email', $_SESSION["email"]);
-//        setcookie('phone', $_SESSION["phone"]);
-//        setcookie('state', $_SESSION["state"]);
-
         //respond to the client
         echo json_encode($responseObj);
         unset($postedObject);
@@ -102,9 +94,28 @@ class HomePage
 
         $postedObject = new PostedObj($_POST['JSONpayload'], $responseObj);
         $email = $postedObject->validEmail();
+        unset($postedObject);
 
         $dataLayer = new DataLayer($responseObj);
         $user = $dataLayer->getUserByEmail($email);
+
+        // This would be a redundant way of going about this
+        // but I want very strict handling of the password in clear text form
+        $postObj = json_decode($_POST['JSONpayload']);
+        $peppered = $postObj->password.$GLOBALS['PEPPER'];
+        unset($postObj);
+        unset($_POST['JSONpayload']);
+        if(password_verify($peppered, $dataLayer->getPasswordByEmail($email))){
+            $_SESSION["user"] = $user;  //only after successful sign in
+            setcookie('fname', $user->getFname());
+            setcookie('lname', $user->getLname());
+//            setcookie('email', $_SESSION["email"]);
+//            setcookie('phone', $_SESSION["phone"]);
+//            setcookie('state', $_SESSION["state"]);
+        }else{
+            $responseObj->error = true;
+            $responseObj->message = 'Ah ah ah, you didn say the magic word';
+        }
 
         // for testing
         //$responseObj->error = true;
@@ -114,7 +125,6 @@ class HomePage
         //respond to the client
         //var_dump($responseObj);
         echo json_encode($responseObj);
-        unset($postedObject);
     }
 
 }

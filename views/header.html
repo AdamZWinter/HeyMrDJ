@@ -26,63 +26,61 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="home">Hey Mr. DJ</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-<!--            *****************************************  LOG IN **********************************************************-->
 
-<!--            <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                            Account-->
-<!--                        </a>-->
-<!--                            <label for="username">Username:</label>-->
-<!--                            <input type="text" width="200" id="username">-->
-<!--                            <label for="password">Username:</label>-->
-<!--                            <input type="password" width="200" id="password">-->
-<!--                            <input type="submit" value="Submit">-->
-<!--                &lt;!&ndash;                <form class="d-flex">&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <button class="btn btn-outline-success" type="submit">Search</button>&ndash;&gt;-->
-<!--                &lt;!&ndash;                </form>&ndash;&gt;-->
-<!--            </div>-->
+            <check if="{{ array_key_exists('fname', @_COOKIE) }}">
+                <true>
+                    <check if="{{ array_key_exists('user', @_SESSION) }}">
+                        <true>
+                            <li class="nav-item dropdown d-flex ms-auto pe-1">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ @_SESSION['user']->getFname() }}
+                                </a>
+                                <ul class="dropdown-menu pe-5 me-5" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="destroy">Sign Out</a></li>
+                                </ul>
+                            </li>
+                        </true>
+                        <false>
+                            <li class="nav-item dropdown d-flex ms-auto pe-1">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ @_COOKIE['fname'] }}
+                                </a>
+                                <ul class="dropdown-menu pe-5 me-5" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="signIn">Sign In</a></li>
+                                </ul>
+                            </li>
+                        </false>
 
-<!--            ********************************** MENU ************************************************************-->
+                    </check>
+                </true>
+                <false>
+                <!-- Nothing-->
+                </false>
+            </check>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 pe-5">
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link active" aria-current="page" href="#">Home</a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="#">Link</a>-->
-<!--                    </li>-->
-                    <li class="nav-item dropdown d-flex pe-5 me-5">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Menu
-                        </a>
-                        <ul class="dropdown-menu pe-5 me-5" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="eventSearch">Find My Event</a></li>
-                            <li><a class="dropdown-item" href="#">Find My DJ</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Make a Request</a></li>
-                            <li><a class="dropdown-item" href="#">Browse Songs</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="register">Register</a></li>
-                            <li><a class="dropdown-item" href="signIn">Sign In</a></li>
-                        </ul>
-                    </li>
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link disabled">Disabled</a>-->
-<!--                    </li>-->
+
+
+
+
+            <!--            ********************************** MENU ************************************************************-->
+
+            <li class="nav-item dropdown d-flex pe-5 ms-auto">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Menu
+                </a>
+                <ul class="dropdown-menu pe-5 me-5" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="eventSearch">Find My Event</a></li>
+                    <li><a class="dropdown-item" href="#">Find My DJ</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Make a Request</a></li>
+                    <li><a class="dropdown-item" href="#">Browse Songs</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="register">Register</a></li>
+                    <li><a class="dropdown-item" href="signIn">Sign In</a></li>
                 </ul>
-<!--                <form class="d-flex">-->
-<!--                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--                    <button class="btn btn-outline-success" type="submit">Search</button>-->
-<!--                </form>-->
-            </div>
+            </li>
 
-<!--            *******************************************************************************************-->
 
         </div>
     </nav>

@@ -40,8 +40,8 @@ class DataLayer
                     VALUES (null, :fname, :lname, :email, :phone, :state, :photo, :password)";
         $stmt = $this->_dbh->prepare($sql);
 
-        $lname = $user->getFname();
-        $fname = $user->getLname();
+        $fname = $user->getFname();
+        $lname = $user->getLname();
         $email = $user->getEmail();
         $phone = $user->getPhone();
         $state = $user->getState();

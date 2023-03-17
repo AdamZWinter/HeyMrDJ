@@ -36,9 +36,18 @@ $f3->route('GET /eventSearch', function (){ Events::get(); });
 $f3->route('GET /events', function (){ Events::get(); });
 
 //Defines route to error page
-$f3->route('GET /error', function () {
+$f3->route('GET /error', function () use ($f3) {
+    //$f3->error(400,'This is an error.');
     $view = new Template();
     echo $view->render("views/error.html");
+});
+
+//Calls and redirects to this route from client-side javascript will destroy the session
+$f3->route('GET /destroy', function ($f3) {
+    session_destroy();
+//    setcookie("fname", "", time() - 3600);
+//    setcookie("lname", "", time() - 3600);
+    $f3->reroute('home');
 });
 
 //Run Fat Free

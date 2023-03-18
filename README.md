@@ -23,14 +23,43 @@ Version One requirements:
 <br>
 Project Requirements
 
-<br>--Separates all database/business logic using the MVC pattern.
-<br>--Routes all URLs and leverages a templating language using the Fat-Free framework.
-<br>--Has a clearly defined database layer using PDO and prepared statements.
-<br>--Data can be added and viewed.
-<br>--Has a history of commits from both team members to a Git repository. Commits are clearly commented.
-<br>--Uses OOP, and utilizes multiple classes, including at least one inheritance relationship.
-<br>--Contains full Docblocks for all PHP files and follows PEAR standards.
-<br>--Has full validation on the server side through PHP.
-<br>--All code is clean, clear, and well-commented. DRY (Don't Repeat Yourself) is practiced.
-<br>--Your submission shows adequate effort for a final project in a full-stack web development course.
-<br>--Incorporates Ajax that access data from a JSON file, PHP script, or API. If you implement Ajax, be sure to include how you did so in your readme file
+<br><i>--Separates all database/business logic using the MVC pattern.</i>
+<br> Views are in views/, models are in models/, controllers are in controllers/
+<br> I tried to make JS a subfolder of views/, but the relative paths didn't work
+<br>
+<br><i>--Routes all URLs and leverages a templating language using the Fat-Free framework.</i>
+<br> All links within the site reference only routes, not any particular files:  index.php
+<br>
+<br><i>--Has a clearly defined database layer using PDO and prepared statements.</i>
+<br>  see models/DataLayer.php
+<br>
+<br><i>--Data can be added and viewed.</i>
+<br>  Please register and sign in.  Within models/DataLayer.php and models/User.php
+<br>  you'll see that users are stored in the users database and that passwords are properly hashed and verified
+<br>
+<br><i>--Has a history of commits from both team members to a Git repository. Commits are clearly commented.</i>
+<br>
+<br>
+<br><i>--Uses OOP, and utilizes multiple classes, including at least one inheritance relationship.</i>
+<br> A DJ is a User.  The DJ class extends the User class.  Other classes with OOP design include PostedObj, DataLayer, Song, and Playlist.
+<br> The controller classes utilize static methods.
+<br>
+<br><i>--Contains full Docblocks for all PHP files and follows PEAR standards.</i>
+<br>
+<br>
+<br><i>--Has full validation on the server side through PHP.</i>
+<br> Validation is done via the PostedObj class, and invoked by the controller.
+<br> See HomePage.php HomePage::postRegister() method for example.
+<br>
+<br><i>--All code is clean, clear, and well-commented. DRY (Don't Repeat Yourself) is practiced.</i>
+<br> With the PostedObj class, validation of same kinds of data, posted from different pages, happens with a single method
+<br> For example, the same code is used to validate an email address, on the server side, whether posted from the register page or the sign in page.
+<br>
+<br><i>--Your submission shows adequate effort for a final project in a full-stack web development course.</i>
+<br>
+<br>
+<br><i>--Incorporates Ajax that access data from a JSON file, PHP script, or API. If you implement Ajax, be sure to include how you did so in your readme file.</i>
+<br>This is the default implementation for client-to-server POST
+<br>That is, in many places the front end relationship to the backend is through such an API.
+<br>For example, see JS/register.js and HomePage::postRegister()
+

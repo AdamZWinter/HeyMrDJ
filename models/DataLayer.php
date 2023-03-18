@@ -36,8 +36,8 @@ class DataLayer
     function insertUser($user)
     {
         //$user = new User();
-        $sql = "INSERT INTO `users`(`id`, `fname`, `lname`, `email`, `phone`, `state`, `photo`, `password`) 
-                    VALUES (null, :fname, :lname, :email, :phone, :state, :photo, :password)";
+        $sql = "INSERT INTO `users`(`id`, `fname`, `lname`, `email`, `phone`, `state`, `photo`, `password`, `isDJ`) 
+                    VALUES (null, :fname, :lname, :email, :phone, :state, :photo, :password, :isDJ)";
         $stmt = $this->_dbh->prepare($sql);
 
         $fname = $user->getFname();
@@ -47,6 +47,7 @@ class DataLayer
         $state = $user->getState();
         $photo = $user->getPhoto();
         $password = $user->getPassword();
+        $isDJ = $user->isDJ();
 
         $stmt->bindParam(':fname', $fname);
         $stmt->bindParam(':lname', $lname);
@@ -55,9 +56,26 @@ class DataLayer
         $stmt->bindParam(':state', $state);
         $stmt->bindParam(':photo', $photo);
         $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':isDJ', $isDJ);
 
 
         $stmt->execute();
+        //https://www.php.net/manual/en/pdo.errorinfo.php
+        $errorInfo = $stmt->errorInfo();
+        if($errorInfo[0] != "00000"){
+            //var_dump($stmt->errorInfo());
+            $this->_responseObj->error = true;
+            $this->_responseObj->message = 'DB error: ';
+            if($errorInfo[1]){
+                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[1];
+            }
+            if($errorInfo[2]){
+                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[2];
+            }
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+
         if($stmt->rowCount() == 1) {
             $this->_responseObj->message = $this->_responseObj->message."  Successfully inserted new user.";
             return $this->_dbh->lastInsertId();

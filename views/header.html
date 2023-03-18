@@ -30,37 +30,44 @@
 
             <check if="{{ array_key_exists('fname', @_COOKIE) }}">
                 <true>
-                    <check if="{{ array_key_exists('user', @_SESSION) }}">
-                        <true>
-                            <li class="nav-item dropdown d-flex ms-auto pe-1">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ @_SESSION['user']->getFname() }}
-                                </a>
-                                <ul class="dropdown-menu pe-5 me-5" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="destroy">Sign Out</a></li>
-                                </ul>
-                            </li>
-                        </true>
-                        <false>
-                            <li class="nav-item dropdown d-flex ms-auto pe-1">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ @_COOKIE['fname'] }}
-                                </a>
-                                <ul class="dropdown-menu pe-5 me-5" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="signIn">Sign In</a></li>
-                                </ul>
-                            </li>
-                        </false>
+                    <li class="nav-item dropdown d-flex ms-auto pe-1">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ @_COOKIE['fname'] }}
+                        </a>
+                        <ul class="dropdown-menu pe-5 me-5" aria-labelledby="navbarDropdown">
 
-                    </check>
+                            <check if="{{ array_key_exists('user', @_SESSION) }}">
+                                <true>
+                                    <li><a class="dropdown-item" href="destroy">Sign Out</a></li>
+                                    <check if="{{ @SESSION['user']->isDJ() == 1 }}">
+                                        <true>
+                                                <li><a class="dropdown-item" href="dashboard">DJ Dashboard</a></li>
+                                        </true>
+                                        <false>
+                                            <!-- Nothing-->
+                                        </false>
+                                    </check>
+                                </true>
+                                <false>
+                                    <li><a class="dropdown-item" href="signIn">Sign In</a></li>
+                                </false>
+                            </check>
+
+                        </ul>
+                    </li>
                 </true>
                 <false>
-                <!-- Nothing-->
+                    <li class="nav-item dropdown d-flex pe-5 ms-auto">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Guest
+                        </a>
+                        <ul class="dropdown-menu pe-5 me-5" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="register">Register</a></li>
+                            <li><a class="dropdown-item" href="signIn">Sign In</a></li>
+                        </ul>
+                    </li>
                 </false>
             </check>
-
-
-
 
 
             <!--            ********************************** MENU ************************************************************-->
@@ -75,9 +82,6 @@
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">Make a Request</a></li>
                     <li><a class="dropdown-item" href="#">Browse Songs</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="register">Register</a></li>
-                    <li><a class="dropdown-item" href="signIn">Sign In</a></li>
                 </ul>
             </li>
 

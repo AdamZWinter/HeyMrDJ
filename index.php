@@ -49,8 +49,8 @@ $f3->route('GET /destroy', function ($f3) {
     session_destroy();
 //    setcookie("fname", "", time() - 3600);
 //    setcookie("lname", "", time() - 3600);
-//    $f3->reroute('home');
-    HomePage::get();
+    $f3->reroute('home');
+    //HomePage::get();  //This does not behave the same way as reroute
 });
 
 //Run Fat Free

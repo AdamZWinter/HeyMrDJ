@@ -15,6 +15,7 @@ class User
     private $_state;
     private $_photo;
     private $_password;
+    private $_isDJ;
 
 
     /**
@@ -197,7 +198,26 @@ class User
         $this->setPhone($assoc['phone']);
         $this->setState($assoc['state']);
         $this->setPhoto($assoc['photo']);
+        $this->setIsDJ($assoc['isDJ']);
     }
+
+    /**
+     * @return mixed
+     */
+    public function isDJ()
+    {
+        return $this->_isDJ;
+    }
+
+    /**
+     * @param mixed $isDJ
+     */
+    public function setIsDJ($isDJ)
+    {
+        $this->_isDJ = $isDJ;
+    }
+
+
 
 
 }

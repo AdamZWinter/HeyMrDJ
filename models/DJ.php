@@ -1,11 +1,12 @@
 <?php
-
+/**
+ *  Model for DJ extends User
+ *
+ * @author Adam Winter
+ */
 class DJ extends User
 {
-
-
-
-
+    private $_bio;
 
 
     /**

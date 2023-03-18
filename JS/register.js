@@ -8,10 +8,12 @@ const personalInfoSubmit = function (){
     let state = document.querySelector("#state")[document.querySelector("#state").selectedIndex].innerHTML;
     let password = document.querySelector("#password").value;
     let password2 = document.querySelector("#password2").value;
+    let isDJ = document.querySelector("#isDJ").checked;
+    if(isDJ != 1){isDJ = 0;}
 
     //TODO:  do validation first
 
-    let assocArray = {fname: fname, lname: lname, email: email, phone: phone, state: state, password: password};
+    let assocArray = {fname: fname, lname: lname, email: email, phone: phone, state: state, password: password, isDJ: isDJ};
     let JSONpayload = JSON.stringify(assocArray);
 
     var xhttp = new XMLHttpRequest();

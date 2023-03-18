@@ -13,6 +13,8 @@ class HomePage
      */
     static function get()
     {
+        //$user = $_SESSION['user'];
+        //var_dump($user);
         //Instantiate a view
         $view = new Template();
         echo $view->render("views/home.html");
@@ -58,6 +60,7 @@ class HomePage
         $user->setPhone($userObjJSON->phone);
         $user->setState($userObjJSON->state);
         $user->setPassword($userObjJSON->password);
+        $user->setIsDJ($userObjJSON->isDJ);
 
         $dataLayer = new DataLayer($responseObj);
         $dataLayer->insertUser($user);
@@ -106,7 +109,7 @@ class HomePage
         unset($postObj);
         unset($_POST['JSONpayload']);
         if(password_verify($peppered, $dataLayer->getPasswordByEmail($email))){
-            $_SESSION["user"] = $user;  //only after successful sign in
+            $_SESSION["user"] = $user;  //User Session should only be created here with successful sign in
             setcookie('fname', $user->getFname());
             setcookie('lname', $user->getLname());
 //            setcookie('email', $_SESSION["email"]);

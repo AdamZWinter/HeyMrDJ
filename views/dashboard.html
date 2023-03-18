@@ -18,56 +18,45 @@
       <div class= "container-fluid">
         <!--    -----------------------------------            MAIN     ---------------------------------------------------  -->
 
-        <div class="row">
-
-          <div class="col-md-12 col-sm-12">
-            <br>
-            <h4>Sign In</h4>
-            <p>Welcome back.</p>
-            <br>
-            <hr>
-            <br>
-            <br>
-            <br>
-          </div>
-
-        </div><!-- end row -->
-
-
-
-        <!--    <form id = "order1" action="#" method="post">  ------  Using AJAX instead-->
-        <form id="personalInfo">
           <div class="row">
-            <div class="col-md-1">
+
+            <div class="col-md-6 col-sm-12">
               <br>
-            </div>
-
-            <div class="col-md-5 col-sm-12">
-              <label>Email:                    </label>
-              <input type="text" class= "form-control" id="email" name="email" autocomplete="username">
-              <br>
-
-            </div>
-
-            <div class="col-md-5 col-sm-12">
-
-              <label>Password:                    </label>
-              <input type="password" class= "form-control" id="password" name="password" autocomplete="current-password">
+              <h4>Your Upcoming Events</h4>
               <br>
               <br>
-              <div class="d-grid gap-2">
-                <button type="button" class="rounded nextButton btn-outline-primary" id="btnSignIn">Sign In</button>
-              </div>
-              <span id="submitFeedback"></span>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
 
             </div>
 
-            <div class="col-md-1">
-              <br>
+
+            <div class="col-md-6 col-sm-12">
+              <form id="form">
+                <br>
+                <h4>Add and Event</h4>
+                <label>Event Name  (64 character max):               </label>
+                <input type="text" class= "form-control" id="fname" name="fname">
+                <label>State:                    </label>
+                <select class="form-select" name="state" id="state">
+                  <option selected>Washington</option>
+                  <repeat group="{{ @states }}" key="{{ @key }}" value="{{ @state }}">
+                    <option value="{{ @key }}">{{ @state }}</option>
+                  </repeat>
+                  <!--  <option value="1">One</option>-->
+                </select>
+                <br>
+                <br>
+                <br>
+                <span id="submitFeedback"></span>
+              </form>
             </div>
+
 
           </div><!-- end row -->
-        </form>
 
         <!--    -----------------------------------       END MAIN     ---------------------------------------------------  -->
       </div><!-- end inner container-->
@@ -83,7 +72,7 @@
 </div><!-- end container -->
 
 <!--My scripts-->
-<script src="JS/signIn.js"></script>
+<script src="JS/register.js"></script>
 
 <!--third-party scripts-->
 <!--<script src="//code.jquery.com/jquery.js"></script>-->

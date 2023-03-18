@@ -31,7 +31,7 @@ $f3->route('POST /signIn', function () use ($f3) { HomePage::postSignIn($f3); })
 
 $f3->route('GET /charts', function () use ($f3) { Music::getCharts(); });
 
-$f3->route('GET /dashboard', function () use ($f3) { HomePage::get(); });
+$f3->route('GET /dashboard', function () use ($f3) { Events::getDashboard($f3); });
 
 // Event routes
 $f3->route('GET /eventSearch', function (){ Events::get(); });

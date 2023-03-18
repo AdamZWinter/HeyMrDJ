@@ -29,6 +29,8 @@ $f3->route('POST /register', function () use ($f3) { HomePage::postRegister($f3)
 $f3->route('GET /signIn', function () use ($f3) { HomePage::getSignIn($f3); });
 $f3->route('POST /signIn', function () use ($f3) { HomePage::postSignIn($f3); });
 
+$f3->route('GET /charts', function () use ($f3) { Music::getCharts(); });
+
 $f3->route('GET /dashboard', function () use ($f3) { HomePage::get(); });
 
 // Event routes
@@ -47,7 +49,8 @@ $f3->route('GET /destroy', function ($f3) {
     session_destroy();
 //    setcookie("fname", "", time() - 3600);
 //    setcookie("lname", "", time() - 3600);
-    $f3->reroute('home');
+//    $f3->reroute('home');
+    HomePage::get();
 });
 
 //Run Fat Free

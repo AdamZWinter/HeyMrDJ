@@ -1,109 +1,138 @@
 <?php
 class PostedObj
 {
-    protected $decodedObj;  //The decoded object sent from the client
-    protected $obj;         //The object that will be json encoded and returned to the client.
-    function __construct($JSONpayload, $obj)
+    protected $_decodedObj;  //The object sent from the client decoded
+    protected $_responseObj;         //The object that will be json encoded and returned to the client.
+    function __construct($JSONpayload, $responseObj)
     {
-        $this->decodedObj = json_decode($JSONpayload);
-        $this->obj = $obj;
+        $this->_decodedObj = json_decode($JSONpayload);
+        $this->_responseObj = $responseObj;
     }
 
     function getJSONencoded()
     {
-        return json_encode($this->decodedObj);
+        return json_encode($this->_decodedObj);
     }
 
     function getDecodedObject()
     {
-        return $this->decodedObj;
+        return $this->_decodedObj;
     }
 
-    function getObj()
+    function getResponseObj()
     {
-        return $this->obj;
+        return $this->_responseObj;
     }
 
-    public function validName()
+    public function validName($generic = null)
     {
-        if(empty($this->decodedObj->fname) || empty($this->decodedObj->lname)) {
-            $this->obj->error = true;
-            $this->obj->message = "First and Last names are required";
-            echo json_encode($this->obj);
+        $this->_decodedObj->fname = filter_var($this->_decodedObj->fname, FILTER_SANITIZE_STRING);
+        $this->_decodedObj->lname = filter_var($this->_decodedObj->lname, FILTER_SANITIZE_STRING);
+        if(empty($this->_decodedObj->fname) || empty($this->_decodedObj->lname)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "First and Last names are required";
+            echo json_encode($this->_responseObj);
             exit;
         }
-        if(!ctype_alpha($this->decodedObj->fname) || !ctype_alpha($this->decodedObj->lname)) {
-            $this->obj->error = true;
-            $this->obj->message = "Names can only contain letters";
-            echo json_encode($this->obj);
+        if(!ctype_alpha($this->_decodedObj->fname) || !ctype_alpha($this->_decodedObj->lname)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Names can only contain letters";
+            echo json_encode($this->_responseObj);
             exit;
         }
     }//end function validName
 
     public function validEmail()
     {
-        if(empty($this->decodedObj->email)) {
-            $this->obj->error = true;
-            $this->obj->message = "Email address is required.";
-            echo json_encode($this->obj);
+        if(empty($this->_decodedObj->email)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Email address is required.";
+            echo json_encode($this->_responseObj);
             exit;
         }
-        if(!filter_var($this->decodedObj->email, FILTER_VALIDATE_EMAIL)) {
-            $this->obj->error = true;
-            $this->obj->message = "Invalid email address.";
-            echo json_encode($this->obj);
+        if(!filter_var($this->_decodedObj->email, FILTER_VALIDATE_EMAIL)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Invalid email address.";
+            echo json_encode($this->_responseObj);
             exit;
         }
-        $this->obj->validEmail = true;
-        return $this->decodedObj->email;
+        $this->_responseObj->validEmail = true;
+        return $this->_decodedObj->email;
     }
 
     public function validPhone()
     {
-        if(empty($this->decodedObj->phone)) {
-            $this->obj->error = true;
-            $this->obj->message = "Phone number is required.";
-            echo json_encode($this->obj);
+        if(empty($this->_decodedObj->phone)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Phone number is required.";
+            echo json_encode($this->_responseObj);
             exit;
         }
-        $this->decodedObj->phone = filter_var($this->decodedObj->phone, FILTER_SANITIZE_STRING);
-        if(!preg_match("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/", $this->decodedObj->phone)) {
-            $this->obj->error = true;
-            $this->obj->message = "Invalid phone number format.";
-            echo json_encode($this->obj);
+        $this->_decodedObj->phone = filter_var($this->_decodedObj->phone, FILTER_SANITIZE_STRING);
+        if(!preg_match("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/", $this->_decodedObj->phone)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Invalid phone number format.";
+            echo json_encode($this->_responseObj);
             exit;
         }
     }
 
     public function validState()
     {
-        if(!in_array($this->decodedObj->state, DataLayer::getStates())) {
-            $this->obj->error = true;
-            $this->obj->message = 'Possible Spoofing: Submission includes a value that is not acceptable';
-            echo json_encode($this->obj);
-            exit;
-        }
-    }
-
-    public function validMailing()
-    {
-        if($this->decodedObj->mailing != 1 && $this->decodedObj->mailing != 0) {
-            $this->obj->error = true;
-            $this->obj->message = 'Possible Spoofing: Submission includes a value that is not acceptable';
-            echo json_encode($this->obj);
+        $this->_decodedObj->state = filter_var($this->_decodedObj->state, FILTER_SANITIZE_STRING);
+        if(!in_array($this->_decodedObj->state, DataLayer::getStates())) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = 'Possible Spoofing: Submission includes a value that is not acceptable';
+            echo json_encode($this->_responseObj);
             exit;
         }
     }
 
     public function notBatman()
     {
-        if($this->decodedObj->fname == "Batman") {
-            $this->obj->error = true;
-            $this->obj->message = "Sorry, you cannot be Batman.";
-            echo json_encode($this->obj);
+        if($this->_decodedObj->fname == "Batman") {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Sorry, you cannot be Batman.";
+            echo json_encode($this->_responseObj);
             exit;
         }else{
-            $this->obj->message = "Cool name.";
+            $this->_responseObj->message[] = "Cool name.";
         }
     }
+
+    public function validNameGeneric()
+    {
+        $this->_decodedObj->name = filter_var($this->_decodedObj->name, FILTER_SANITIZE_STRING);
+        if(empty($this->_decodedObj->name)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Name is required";
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+        if(!preg_match("/^[a-zA-Z0-9 _.-]*$/", $this->_decodedObj->name)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Name can only contain letters, numbers, _, ., or -";
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+        $this->_responseObj->message[] = 'Name is valid';
+    }//end function validName
+
+    public function validDate()
+    {
+        $this->_decodedObj->date = filter_var($this->_decodedObj->date, FILTER_SANITIZE_STRING);
+        if(empty($this->_decodedObj->date)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Date is required";
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+        if(!preg_match("/^\d\d\d\d-\d\d-\d\d$/", $this->_decodedObj->date)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "Invalid date.";
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+        $this->_responseObj->message[] = 'Date is valid';
+    }//end function validName
 }

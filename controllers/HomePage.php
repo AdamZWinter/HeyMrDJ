@@ -117,12 +117,12 @@ class HomePage
 //            setcookie('state', $_SESSION["state"]);
         }else{
             $responseObj->error = true;
-            $responseObj->message = 'Ah ah ah, you didn say the magic word';
+            $responseObj->message[] = 'Ah ah ah, you didn say the magic word';
         }
 
         // for testing
         //$responseObj->error = true;
-        //$responseObj->message = 'Testing: '.$responseObj->message. '  Email: '.$email;
+        //$responseObj->message[] = 'Testing: ';
         //var_dump($user);
 
         //respond to the client

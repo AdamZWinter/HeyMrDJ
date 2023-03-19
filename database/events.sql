@@ -3,5 +3,6 @@ CREATE TABLE `events` (
                           `name` varchar(64) NOT NULL,
                           `dj` varchar(64) NOT NULL,
                           `state` varchar(32) NOT NULL,
-                          `date` int(32) NOT NULL
+                          `date` int(32) NOT NULL,
+                          `dateread` varchar(32) NOT NULL
 );

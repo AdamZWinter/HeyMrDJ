@@ -27,7 +27,49 @@ class Events
      */
     static function post()
     {
-        //not used yet
+        $responseObj = new stdClass();
+        $responseObj->error = false;
+        $responseObj->message = [];
+        //echo $_POST['JSONpayload'];
+
+        if(!User::isSignedIn()){
+            $responseObj->error = true;
+            $responseObj->message[] = 'You must be signed into your account to do this.';
+            echo json_encode($responseObj);
+            exit;
+        }
+
+        $postedObject = new PostedObj($_POST['JSONpayload'], $responseObj);
+        //echo $postedObject->getJSONencoded();
+        $postedObject->validNameGeneric();
+        $postedObject->validState();
+        $postedObject->validDate();
+
+        $objJSON = $postedObject->getDecodedObject();
+        $event = new Event();
+
+        $event->setName($objJSON->name);
+        $event->setDj($_SESSION['user']->getEmail());
+        $event->setState($objJSON->state);
+        $event->setDateread($objJSON->date);
+        $event->datereadToDate();
+
+//        var_dump($event);
+//        exit;
+
+        $dataLayer = new DataLayer($responseObj);
+        $eventId = $dataLayer->addEvent($event);
+
+        if(!is_null($eventId) && $eventId > 0){
+            $responseObj->message = [];
+            $responseObj->message[] = "Event id: $eventId created.";
+        }else{
+            $responseObj->error = true;
+            $responseObj->message[] = "Error inserting event to database.";
+            $responseObj->message[] = "Event ID is: $eventId";
+        }
+
+        echo json_encode($responseObj);
     }
 
     /**

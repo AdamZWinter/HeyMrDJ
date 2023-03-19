@@ -11,7 +11,8 @@ class DataLayer
             $this->_responseObj->error = false;
         }else if(!is_a($stdClassObj, stdClass::class)){
             $this->_responseObj->error = true;
-            $this->_responseObj->message = 'You can only pass an object of type stdClass to DataLayer';
+            $this->_responseObj->message = [];
+            $this->_responseObj->message[] = 'You can only pass an object of type stdClass to DataLayer';
             echo json_encode($this->_responseObj);
             exit;
         }else{
@@ -22,12 +23,12 @@ class DataLayer
         try {
             $this->_dbh = new PDO(DB_DRIVER, DB_USER, PASSWORD);
             $this->_responseObj->dbh = 'DB connection successful.';
-            $this->_responseObj->message = 'DB connection successful.';
+            $this->_responseObj->message[] = 'DB connection successful.';
             //echo 'DB connection successful.';
         } catch (PDOException $e) {
             //echo $e->getMessage();
             $this->_responseObj->error = true;
-            $this->_responseObj->message = 'Failed to open database connection: '.$e->getMessage();
+            $this->_responseObj->message[] = 'Failed to open database connection: '.$e->getMessage();
             echo json_encode($this->_responseObj);
             exit;
         }
@@ -65,24 +66,24 @@ class DataLayer
         if($errorInfo[0] != "00000"){
             //var_dump($stmt->errorInfo());
             $this->_responseObj->error = true;
-            $this->_responseObj->message = 'DB error: ';
+            $this->_responseObj->message[] = 'DB error: ';
             if($errorInfo[1]){
-                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[1];
+                $this->_responseObj->message[] = $errorInfo[1];
             }
             if($errorInfo[2]){
-                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[2];
+                $this->_responseObj->message[] = $errorInfo[2];
             }
             echo json_encode($this->_responseObj);
             exit;
         }
 
         if($stmt->rowCount() == 1) {
-            $this->_responseObj->message = $this->_responseObj->message."  Successfully inserted new user.";
+            $this->_responseObj->message[] = "Successfully inserted new user.";
             return $this->_dbh->lastInsertId();
         }else{
             $this->_responseObj->error = true;
             $this->_responseObj->errorInfo = $stmt->errorInfo();
-            $this->_responseObj->message = 'Failed to insert new user to database: Error info available as array in errorInfo key ';
+            $this->_responseObj->message[] = 'Failed to insert new user to database: Error info available as array in errorInfo key ';
             echo json_encode($this->_responseObj);
             exit;
         }
@@ -129,19 +130,19 @@ class DataLayer
         if($errorInfo[0] != "00000"){
             //var_dump($stmt->errorInfo());
             $this->_responseObj->error = true;
-            $this->_responseObj->message = 'DB error: ';
+            $this->_responseObj->message[] = 'DB error: ';
             if($errorInfo[1]){
-                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[1];
+                $this->_responseObj->message[] = message.$errorInfo[1];
             }
             if($errorInfo[2]){
-                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[2];
+                $this->_responseObj->message[] = message.$errorInfo[2];
             }
             echo json_encode($this->_responseObj);
             exit;
         }
         if($stmt->rowCount() != 1){
             $this->_responseObj->error = false;
-            $this->_responseObj->message = 'No such email address found';
+            $this->_responseObj->message[] = 'No such email address found';
             $this->_responseObj->emailExists = false;
             echo json_encode($this->_responseObj);
             exit;
@@ -153,7 +154,7 @@ class DataLayer
             $user = new User();
         }
         $user->constructFromDatabase($result);
-        $this->_responseObj->message = $this->_responseObj->message."  Successfully constructed user.";
+        $this->_responseObj->message[] = "Successfully constructed user.";
         return $user;
     }
 
@@ -168,19 +169,19 @@ class DataLayer
         if($errorInfo[0] != "00000"){
             //var_dump($stmt->errorInfo());
             $this->_responseObj->error = true;
-            $this->_responseObj->message = 'DB error: ';
+            $this->_responseObj->message[] = 'DB error: ';
             if($errorInfo[1]){
-                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[1];
+                $this->_responseObj->message[] = message.$errorInfo[1];
             }
             if($errorInfo[2]){
-                $this->_responseObj->message = $this->_responseObj->message.$errorInfo[2];
+                $this->_responseObj->message[] = message.$errorInfo[2];
             }
             echo json_encode($this->_responseObj);
             exit;
         }
         if($stmt->rowCount() != 1){
             $this->_responseObj->error = false;
-            $this->_responseObj->message = 'No such email address found';
+            $this->_responseObj->message[] = 'No such email address found';
             $this->_responseObj->emailExists = false;
             echo json_encode($this->_responseObj);
             exit;
@@ -199,6 +200,57 @@ class DataLayer
             $states[$i+1] = $noKeys[$i];
         }
         return $states;
+    }
+
+    function addEvent($event)
+    {
+        //$event = new Event();
+        $sql = "INSERT INTO `events`(`id`, `name`, `dj`, `state`, `date`, `dateread`) 
+                    VALUES (null, :name, :dj, :state, :date, :dateread)";
+        $stmt = $this->_dbh->prepare($sql);
+
+        $name = $event->getName();
+        $dj = $event->getDj();
+        $state = $event->getState();
+        $date = $event->getDate();
+        $dateread = $event->getDateread();
+
+        //var_dump($event->getName());
+        //exit;
+
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':dj', $dj);
+        $stmt->bindParam(':state', $state);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':dateread', $dateread);
+
+
+        $stmt->execute();
+        //https://www.php.net/manual/en/pdo.errorinfo.php
+        $errorInfo = $stmt->errorInfo();
+        if($errorInfo[0] != "00000"){
+            //var_dump($stmt->errorInfo());
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = 'DB error: ';
+            if($errorInfo[1]){
+                $this->_responseObj->message[] = $errorInfo[1];
+            }
+            if($errorInfo[2]){
+                $this->_responseObj->message[] = $errorInfo[2];
+            }
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+
+        if($stmt->rowCount() == 1) {
+            $this->_responseObj->message[] = 'Successfully inserted.';
+            return $this->_dbh->lastInsertId();
+        }else{
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = 'Database error:  Row count is not equal to 1 ';
+            echo json_encode($this->_responseObj);
+            exit;
+        }
     }
 
 }

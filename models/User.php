@@ -217,6 +217,13 @@ class User
         $this->_isDJ = $isDJ;
     }
 
+    public static function isSignedIn(){
+        if(!array_key_exists('user', $_SESSION)){
+            return false;
+        }else{
+            return true;
+        }
+    }
 
 
 

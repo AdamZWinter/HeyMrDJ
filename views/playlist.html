@@ -1,16 +1,25 @@
 <!--home.html-->
 <!--Authors: Adam Winter, Britany Torres, Gavin Sherman-->
 <!--Date: 2023-3-19-->
-<!--Descriptions:  Body of the index page of the site. Home page for Hey Mr DJ.-->
+<!--Descriptions:  Body of the index page of the site. Playlist page for Hey Mr DJ.-->
 
 <include href="views/header.html"></include>  <!--This is strictly F3 syntax-->
 
 <div class="container-fluid">
 
+    <h1>Current Playlist</h1>
+    <br>
+
     <div class="row">
 
-        <div class="column">
+        <div class="col">
+            <repeat group="{{ @songs }}" value=" {{ @song }}">
+                <p>Song: {{ @song['name'] }}<br>
+                    Length: {{ @song['length'] }}<br>
+                    Artist: {{ @song['artist'] }}
+                </p>
 
+            </repeat>
         </div>
 
     </div>

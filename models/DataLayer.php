@@ -253,4 +253,36 @@ class DataLayer
         }
     }
 
+    function addSong($song){
+
+        //1. Define the query
+        $sql= "INSERT INTO `playlist`(`name`, `length`, `artist`) 
+                VALUES (:name, :length, :artist)";
+
+        //2. Prepare the Statement
+        $statement = $this->_dbh->prepare($sql);
+
+        //3. Bind the parameters
+        $statement->bindParam(':name', $song->getName());
+        $statement->bindParam(':length', $song->getLength());
+        $statement->bindParam(':artist', $song->getArtist());
+    }
+
+    function getSongs(){
+
+        //1. Define the query
+        $sql = "SELECT * FROM playlist";
+
+        //2. prepare the statement
+        $statement = $this->_dbh->prepare($sql);
+
+        //3. Bind the parameters
+
+        //4. execute the query
+        $statement->execute();
+
+        //5. process the results
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

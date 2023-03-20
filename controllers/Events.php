@@ -111,9 +111,10 @@ class Events
         foreach ($events as $id){
             $event = $dataLayer->getEventByID($id);
             $asArray = [];
+            $asArray[] = $id;
             $asArray[] = $event->getName();
             $asArray[] = $event->getDateread();
-            $asArray[] = $event->getRequestlist();
+            //$asArray[] = $event->getRequestlist();
             //var_dump($applicant);
 //            $asArray = $event->toArray();
 //            $asArray[6] = '<a href="'.$asArray[6].'">Github</a>';
@@ -132,5 +133,19 @@ class Events
         header('Content-type: application/json');
 
         echo json_encode($response);
+    }
+
+    static function getDashboardEventByID($f3)
+    {
+        $dataLayer = new DataLayer();
+        $event = $dataLayer->getEventByID($f3->get('PARAMS.id'));
+        $f3->set('event', $event);
+//        $viewData = [];
+//        $viewData['eventID'] = $event->getId();
+//        $f3->set('viewData', $viewData);
+        //$f3->sync('SESSION');
+        //Instantiate a view
+        $view = new Template();
+        echo $view->render("views/dashboardEvent.html");
     }
 }

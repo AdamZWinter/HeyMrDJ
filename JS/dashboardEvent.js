@@ -29,21 +29,11 @@ function drawTable(someData) {
 
     var data = new google.visualization.DataTable();
 
-    //data.addColumn('string', 'ID');
     data.addColumn('string', 'Name');
     data.addColumn('string', 'Date');
+    data.addColumn('string', 'Requests');
 
-    let tableArray = [];
-    for(let eventArray of someData){
-        let eventID = eventArray[0];
-        let name = eventArray[1];
-        let date = eventArray[2];
-        let link = '<a class="listLink" href="dashboard/event/'+eventID+'">'+name+'</a>';
-        let newEventArray = [link, date];
-        tableArray.push(newEventArray);
-    }
-
-    data.addRows(tableArray);
+    data.addRows(someData);
 
     // data.addColumn('string', 'Name');
     // data.addColumn('number', 'Salary');

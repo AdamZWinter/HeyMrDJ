@@ -205,8 +205,8 @@ class DataLayer
     function addEvent($event)
     {
         //$event = new Event();
-        $sql = "INSERT INTO `events`(`id`, `name`, `dj`, `state`, `date`, `dateread`) 
-                    VALUES (null, :name, :dj, :state, :date, :dateread)";
+        $sql = "INSERT INTO `events`(`id`, `name`, `dj`, `state`, `date`, `dateread`, `playlist`, `requestlist`) 
+                    VALUES (null, :name, :dj, :state, :date, :dateread, :playlist, :requestlist)";
         $stmt = $this->_dbh->prepare($sql);
 
         $name = $event->getName();
@@ -214,6 +214,8 @@ class DataLayer
         $state = $event->getState();
         $date = $event->getDate();
         $dateread = $event->getDateread();
+        $playlist = $event->getPlaylist();
+        $requestlist = $event->getRequestlist();
 
         //var_dump($event->getName());
         //exit;
@@ -223,6 +225,8 @@ class DataLayer
         $stmt->bindParam(':state', $state);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':dateread', $dateread);
+        $stmt->bindParam(':playlist', $playlist);
+        $stmt->bindParam(':requestlist', $requestlist);
 
 
         $stmt->execute();
@@ -251,6 +255,63 @@ class DataLayer
             echo json_encode($this->_responseObj);
             exit;
         }
+    }
+
+    function getEventByID($id)
+    {
+        $sql = "SELECT * FROM events WHERE `id` = :id";
+        $stmt = $this->_dbh->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        //https://www.php.net/manual/en/pdo.errorinfo.php
+        $errorInfo = $stmt->errorInfo();
+        if($errorInfo[0] != "00000"){
+            //var_dump($stmt->errorInfo());
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = 'DB error: ';
+            if($errorInfo[1]){
+                $this->_responseObj->message[] = message.$errorInfo[1];
+            }
+            if($errorInfo[2]){
+                $this->_responseObj->message[] = message.$errorInfo[2];
+            }
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+        if($stmt->rowCount() != 1){
+            $this->_responseObj->error = false;
+            $this->_responseObj->message[] = 'No such event found';
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $event = new Event();
+        $event->constructFromDatabase($result);
+        $this->_responseObj->message[] = "Successfully constructed event.";
+        return $event;
+    }
+
+    function getEventsByDJ($email)
+    {
+        $sql = "SELECT `id` FROM events WHERE `dj` = :email";
+        $stmt = $this->_dbh->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        //var_dump($results);
+        $arrayResults = [];
+        foreach ($results as $row){
+            $arrayResults[] = $row[0];
+        }
+        return $arrayResults;
+//        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+//        if($result['isDJ'] == 1) {
+//            $user = new DJ();
+//        }else{
+//            $user = new User();
+//        }
+//        $user->constructFromDatabase($result);
+//        return $user;
     }
 
 }

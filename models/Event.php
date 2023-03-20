@@ -12,6 +12,8 @@ class Event
     private $_state;
     private $_date;
     private $_dateread;
+    private $_playlist;
+    private $_requestlist;
 
 
     /** Constructor for Event
@@ -43,6 +45,8 @@ class Event
         $this->setState($assoc['state']);
         $this->setDate($assoc['date']);
         $this->setDateread($assoc['dateread']);
+        $this->setPlaylist($assoc['playlist']);
+        $this->setRequestlist($assoc['requestlist']);
     }
 
     /**
@@ -150,6 +154,39 @@ class Event
     public function dateToDateread(){
         $this->_dateread = date(U, $this->getDate());
     }
+
+    /**
+     * @return int ID of the playlist
+     */
+    public function getPlaylist()
+    {
+        return $this->_playlist;
+    }
+
+    /**
+     * @param int $playlist ID of the playlist
+     */
+    public function setPlaylist($playlist)
+    {
+        $this->_playlist = $playlist;
+    }
+
+    /**
+     * @return int ID of the request list
+     */
+    public function getRequestlist()
+    {
+        return $this->_requestlist;
+    }
+
+    /**
+     * @param int $requestlist ID of the request list
+     */
+    public function setRequestlist($requestlist)
+    {
+        $this->_requestlist = $requestlist;
+    }
+
 
 
 }

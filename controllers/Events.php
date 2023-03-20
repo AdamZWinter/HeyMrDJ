@@ -53,6 +53,8 @@ class Events
         $event->setState($objJSON->state);
         $event->setDateread($objJSON->date);
         $event->datereadToDate();
+        $event->setPlaylist(0);
+        $event->setRequestlist(0);
 
 //        var_dump($event);
 //        exit;
@@ -83,5 +85,52 @@ class Events
         //Instantiate a view
         $view = new Template();
         echo $view->render("views/dashboard.html");
+    }
+
+    static function getByDJ()
+    {
+        $response = new stdClass();
+        $response->error = false;
+        $response->message[] = 'response message';
+
+        if(!User::isSignedIn()){
+            $response->error = true;
+            $response->message[] = 'You must be signed into your account to do this.';
+            echo json_encode($response);
+            exit;
+        }
+
+//                $dataArray = [];
+//                $dataArray[] = Array('Event Name', '2023-3-19', 'Requests');
+//                $dataArray[] = Array('one', 'two', 'three',);
+
+        $dataLayer = new DataLayer();
+        $events = $dataLayer->getEventsByDJ($_SESSION['user']->getEmail());
+
+        $dataArray = [];
+        foreach ($events as $id){
+            $event = $dataLayer->getEventByID($id);
+            $asArray = [];
+            $asArray[] = $event->getName();
+            $asArray[] = $event->getDateread();
+            $asArray[] = $event->getRequestlist();
+            //var_dump($applicant);
+//            $asArray = $event->toArray();
+//            $asArray[6] = '<a href="'.$asArray[6].'">Github</a>';
+//            $asArray[9] = '<a href="applicant/'.$id.'">Biography</a>';
+//            $asArray[10] = '<a href="applicant/'.$id.'">Profile</a>';
+
+            $dataArray[] = $asArray;
+        }
+        //        echo '<pre>';
+        //        var_dump($dataArray);
+        //        echo '</pre>';
+
+        $response->data = $dataArray;
+        //$length = strlen($responseCopy);
+        //header('Content-Length: '.$length);
+        header('Content-type: application/json');
+
+        echo json_encode($response);
     }
 }

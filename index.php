@@ -33,6 +33,7 @@ $f3->route('GET /charts', function () use ($f3) { Music::getCharts(); });
 
 $f3->route('GET /dashboard', function () use ($f3) { Events::getDashboard($f3); });
 $f3->route('POST /event', function () use ($f3) { Events::post($f3); });
+$f3->route('GET /getDJEvents', function () use ($f3) { Events::getByDJ(); });
 
 // Event routes
 $f3->route('GET /eventSearch', function (){ Events::get(); });

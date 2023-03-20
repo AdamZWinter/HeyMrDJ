@@ -47,3 +47,4 @@ const addEvent = function (){
 
 const submitButton = document.querySelector("#btnAddEvent");
 submitButton.addEventListener("click", ()=>{addEvent()}, false);
+

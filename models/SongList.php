@@ -2,11 +2,7 @@
 
 class SongList
 {
-    private $songs; //will eventually be our array
+    private $playlist = [];
 
-    public function __construct()
-    {
-
-    }
 
 }

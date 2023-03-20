@@ -38,6 +38,9 @@ $f3->route('POST /event', function () use ($f3) { Events::post($f3); });
 $f3->route('GET /eventSearch', function (){ Events::get(); });
 $f3->route('GET /events', function (){ Events::get(); });
 
+//Playlist routes
+$f3->route('GET /playlist', function (){Playlist::get(); });
+
 //Defines route to error page
 $f3->route('GET /error', function () use ($f3) {
     //$f3->error(400,'This is an error.');

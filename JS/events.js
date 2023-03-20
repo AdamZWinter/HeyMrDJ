@@ -12,5 +12,5 @@ function drawTable() {
 
     var table = new google.visualization.Table(document.getElementById('table_div'));
 
-    table.draw(data, {width: '100%', height: '100%'});
+    table.draw(data, {allowHtml: true, width: '100%', height: '100%'});
 }

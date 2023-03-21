@@ -19,52 +19,45 @@
     <div class="col-8 col-sm-12" >
       <div class= "container-fluid">
         <!--    -----------------------------------            MAIN     ---------------------------------------------------  -->
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <br>
+            <br>
+            <h3>{{ @event->getName() }} &nbsp;:&nbsp; {{ @event->getDateread() }}</h3>
+          </div>
+        </div><!-- end row -->
+
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <span id="submitFeedback"></span>
+          </div>
+        </div><!-- end row -->
 
         <div class="row">
 
-          <div class="col-md-6 col-sm-12">
+          <div class="col-md-4 col-sm-12">
             <br>
-            <h4>Your Upcoming Events</h4>
+            <h4>Available Songs</h4>
             <br>
-            <div id="table_div"></div>
+            <div id="songs_table_div"></div>
             <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            {{ var_dump(@event) }}
-            <br>
-
           </div>
 
-
-          <div class="col-md-6 col-sm-12">
-            <form id="form">
-              <br>
-              <h4>Add an Event</h4>
-              <label>Event Name  (64 character max):               </label>
-              <input type="text" class= "form-control" id="name" name="name">
-              <label>State:                    </label>
-              <select class="form-select" name="state" id="state">
-                <option selected>Washington</option>
-                <repeat group="{{ @states }}" key="{{ @key }}" value="{{ @state }}">
-                  <option value="{{ @key }}">{{ @state }}</option>
-                </repeat>
-                <!--  <option value="1">One</option>-->
-              </select>
-              <br>
-              <label for="date">Date:</label>
-              <input type="date" id="date" name="date">
-              <br>
-              <br>
-              <div class="d-grid gap-2">
-                <button type="button" class="rounded nextButton btn-outline-primary" id="btnAddEvent">Add Event</button>
-              </div>
-              <br>
-              <span id="submitFeedback"></span>
-            </form>
+          <div class="col-md-4 col-sm-12">
+            <br>
+            <h4>Event Playlist</h4>
+            <br>
+            <div id="playlist_table_div"></div>
+            <br>
           </div>
 
+          <div class="col-md-4 col-sm-12">
+            <br>
+            <h4>Requests</h4>
+            <br>
+            <div id="requests_table_div"></div>
+            <br>
+          </div>
 
         </div><!-- end row -->
 
@@ -86,6 +79,6 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <!--My scripts-->
-<script src="JS/dashboardEvent.js"></script>
+<script src="JS/dashboard/event.js"></script>
 
 <include href="views/footer.html"></include>  <!--This is strictly F3 syntax-->

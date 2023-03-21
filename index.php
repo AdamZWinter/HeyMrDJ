@@ -31,6 +31,7 @@ $f3->route('POST /signIn', function () use ($f3) { HomePage::postSignIn($f3); })
 //Dashboard routes
 $f3->route('GET /dashboard', function () use ($f3) { Dashboard::getDashboard($f3); });
 $f3->route('GET /dashboard/settings', function () use ($f3) { Dashboard::getDJsettings($f3); });
+$f3->route('POST /dashboard/settings', function () use ($f3) { Dashboard::postDJsettings($f3); });
 $f3->route('GET /dashboard/event/@id', function () use ($f3) { Dashboard::getDashboardEventByID($f3); });
 
 // Event routes
@@ -40,6 +41,7 @@ $f3->route('GET /eventSearch', function (){ Events::get(); });
 $f3->route('GET /events', function (){ Events::get(); });
 
 //Playlist routes
+$f3->route('GET /api/getSongs', function () use ($f3) { Music::getSongs(); });
 
 //$f3->route('GET /playlist', function () use ($f3) { Playlist::get($f3); });
 $f3->route('GET /charts', function () use ($f3) { Music::getCharts(); });

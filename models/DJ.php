@@ -10,16 +10,16 @@ class DJ extends User
     private $_bio;
     private $_DJname;
 
-    /**
-     * @return mixed
+    /** Standard getter
+     * @return String DJ name
      */
     public function getDJname()
     {
         return $this->_DJname;
     }
 
-    /**
-     * @param mixed $DJname
+    /** Standard setter
+     * @param String $DJname DJ name
      */
     public function setDJname($DJname)
     {
@@ -27,18 +27,16 @@ class DJ extends User
     }
 
 
-
-
-    /**
-     * @return mixed
+    /** Standard getter
+     * @return String DJ biography
      */
     public function getBio()
     {
         return $this->_bio;
     }
 
-    /**
-     * @param mixed $bio
+    /** Standard setter
+     * @param String $bio DJ biography
      */
     public function setBio($bio)
     {

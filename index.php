@@ -42,9 +42,8 @@ $f3->route('GET /events', function (){ Events::get(); });
 
 //Playlist routes
 
-$f3->route('GET /playlist', function () use ($f3) { Playlist::get($f3); });
+//$f3->route('GET /playlist', function () use ($f3) { Playlist::get($f3); });
 $f3->route('GET /charts', function () use ($f3) { Music::getCharts(); });
-
 $f3->route('GET /playlist', function () use ($f3) { SongList::get($f3); });
 
 //Defines route to error page

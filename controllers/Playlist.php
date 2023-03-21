@@ -7,7 +7,8 @@
  */
 class Playlist
 {
-    static function get($f3){
+    static function get($f3)
+    {
         $dataLayer = new DataLayer();
         $f3->set('songs', $dataLayer->getSongs());
 
@@ -15,7 +16,8 @@ class Playlist
         echo $view->render("views/playlist.html");
     }
 
-    static function post(){
+    static function post()
+    {
         //not being used yet
     }
 }

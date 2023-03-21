@@ -136,9 +136,11 @@ class PostedObj
         $this->_responseObj->message[] = 'Date is valid';
     }//end function validName
 
-    /** Sanitizes the provided field of the decoded JSON object $_decodedObj
+    /**
+     * 
+     * Sanitizes the provided field of the decoded JSON object $_decodedObj
      *
-     * @param $field String The field of the decoded JSON object to sanitize
+     * @param  $field String The field of the decoded JSON object to sanitize
      * @return void
      */
     public function sanitize($field)
@@ -146,9 +148,11 @@ class PostedObj
         $this->_decodedObj->$field = filter_var($this->_decodedObj->$field, FILTER_SANITIZE_STRING);
     }
 
-    /** Validates and sanitizes the provided field of the decoded JSON object $_decodedObj
+    /**
+     * 
+     * Validates and sanitizes the provided field of the decoded JSON object $_decodedObj
      *
-     * @param $field String The field of the decoded JSON object to sanitize and validate
+     * @param  $field String The field of the decoded JSON object to sanitize and validate
      * @return void
      */
     public function validNameByField($field)

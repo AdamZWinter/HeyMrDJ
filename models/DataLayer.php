@@ -1,9 +1,23 @@
 <?php
 
+/** All methods that require database queries
+ *
+ * @authors Adam Winter, Gavin Sherman
+ */
 class DataLayer
 {
+    // responseObj: Many API calls will be made that require a JSON encoded response
+    //This is the object that will be JSON encoded and returned
+    //This object may be created elsewhere and passed to the class
+    //in order to collect additional response data
+    //If it is not passed to the class upon instantiation
+    //then it wil be created by the constructor
     protected $_responseObj;
-    private $_dbh;
+    private $_dbh;  //The database connection object
+
+    /** Constructor
+     * @param $stdClassObj stdClass Object of type stdClass, should include keys error and message[] (Optional)
+     */
     function __construct($stdClassObj = null)
     {
         if($stdClassObj == null){
@@ -34,7 +48,8 @@ class DataLayer
         }
     }
 
-    function handleStmtErrorsAPI($errorInfo){
+    //errorsinfo is array from PDO statement->errorInfo()
+    private function handleStmtErrorsAPI($errorInfo){
         if($errorInfo[0] != "00000"){
             //var_dump($stmt->errorInfo());
             $this->_responseObj->error = true;
@@ -50,6 +65,9 @@ class DataLayer
         }
     }
 
+    /** Inserts new User into database
+     * @param $user User New User to insert to database
+     */
     function insertUser($user)
     {
         //$user = new User();
@@ -92,6 +110,9 @@ class DataLayer
         }
     }
 
+    /** Get array of all user id's
+     * @return array An array of all the user ID's of all the users
+     */
     function getAllUserIDs()
     {
         $sql = "SELECT id FROM users";
@@ -106,6 +127,10 @@ class DataLayer
         return $arrayResults;
     }
 
+    /** Returns the DJ or User class object from the provided user id
+     * @param $id int the id of the DJ or User you want to instantiate and object for
+     * @return DJ|User The DJ or User object from the provided id
+     */
     function getUserByID($id)
     {
         $sql = "SELECT * FROM users WHERE `id` = :id";
@@ -124,6 +149,10 @@ class DataLayer
         return $user;
     }
 
+    /** Returns the DJ or User class object from the provided user email
+     * @param $email String The email address of the DJ or User you want to instantiate and object for
+     * @return DJ|User|void The DJ or User object from the provided email address
+     */
     function getUserByEmail($email)
     {
         $sql = "SELECT * FROM users WHERE `email` = :email";
@@ -154,6 +183,10 @@ class DataLayer
         return $user;
     }
 
+    /** Sets the additional/extended fields (from User) for DJ, from database
+     * @param $dj DJ The DJ object that does not have the additional DJ fields set yet
+     * @return void
+     */
     function getDJinfo($dj){
         $sql = "SELECT * FROM dj_info WHERE `id` = :id";
         $stmt = $this->_dbh->prepare($sql);
@@ -172,6 +205,13 @@ class DataLayer
         }
     }
 
+    /**  For use in updating or creating DJ info:
+     * the additional/extended fields (from User) for DJ
+     * database query updates on existing key: id
+     *
+     * @param $dj DJ The DJ object that does not have the additional DJ fields set yet
+     * @return void
+     */
     function addDJinfo($dj){
         $sql = "INSERT INTO `dj_info` (`id`, `djname`, `bio`)
                     VALUES (:id, :djname, :bio) ON DUPLICATE KEY UPDATE djname=VALUES(djname), bio=VALUES(bio)";
@@ -200,6 +240,10 @@ class DataLayer
         }
     }
 
+    /**  Fetches the password hash of the user by the provided email address
+     * @param $email String The email addres of the user
+     * @return mixed|void
+     */
     function getPasswordByEmail($email)
     {
         $sql = "SELECT `password` FROM users WHERE `email` = :email";
@@ -220,6 +264,9 @@ class DataLayer
         return $result['password'];
     }
 
+    /** Returns index key value pair array of states ex.  1 => Alabama
+     * @return array
+     */
     static function getStates()
     {
         $noKeys = array("Alabama", "Alaska", "American Samoa", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Guam", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Minor Outlying Islands", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "U.S. Virgin Islands", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming");
@@ -232,6 +279,11 @@ class DataLayer
         return $states;
     }
 
+    /**  Inserts new event into the database
+     *
+     * @param $event Event The event to add to the database
+     * @return String JSON encoded response with error and message[] keys
+     */
     function addEvent($event)
     {
         //$event = new Event();
@@ -308,6 +360,10 @@ class DataLayer
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /** Reconstructs and Event object from the database by event id
+     * @param $id int The event ID to reconstruct from the database
+     * @return Event|void  The Event object
+     */
     function getEventByID($id)
     {
         $sql = "SELECT * FROM events WHERE `id` = :id";
@@ -329,6 +385,10 @@ class DataLayer
         return $event;
     }
 
+    /** Gets data for all events owned by the DJ indicated by email address
+     * @param $email String The email address of the DJ
+     * @return array An array of arrays that are the event data
+     */
     function getEventsByDJ($email)
     {
         $sql = "SELECT `id` FROM events WHERE `dj` = :email";

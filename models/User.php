@@ -35,7 +35,7 @@ class User
         $this->_photo = 'somebody.jpg';
     }
 
-    /**
+    /** Standard getter
      * @return String first name
      */
     public function getFname()
@@ -43,47 +43,47 @@ class User
         return $this->_fname;
     }
 
-    /**
-     * @param String $fname
+    /** Standard setter
+     * @param String $fname User first name
      */
     public function setFname($fname)
     {
         $this->_fname = $fname;
     }
 
-    /**
-     * @return String Last name
+    /**Standard Getter
+     * @return String User Last name
      */
     public function getLname()
     {
         return $this->_lname;
     }
 
-    /**
-     * @param String $lname Last name
+    /** Standard Setter
+     * @param String $lname User Last name
      */
     public function setLname($lname)
     {
         $this->_lname = $lname;
     }
 
-    /**
-     * @return String email address
+    /** Standard Getter
+     * @return String User email address
      */
     public function getEmail()
     {
         return $this->_email;
     }
 
-    /**
-     * @param String $email Email address
+    /** Standard Setter
+     * @param String $email User Email address
      */
     public function setEmail($email)
     {
         $this->_email = $email;
     }
 
-    /**
+    /**Standard Getter
      * @return String Phone number
      */
     public function getPhone()
@@ -91,7 +91,7 @@ class User
         return $this->_phone;
     }
 
-    /**
+    /** Standard Setter
      * @param String $phone Phone number
      */
     public function setPhone($phone)
@@ -99,7 +99,7 @@ class User
         $this->_phone = $phone;
     }
 
-    /**
+    /** Standard Getter
      * @return String State or providence of the USA
      */
     public function getState()
@@ -107,56 +107,56 @@ class User
         return $this->_state;
     }
 
-    /**
-     * @param String $state
+    /** Standard setter
+     * @param String $state user state of residence
      */
     public function setState($state)
     {
         $this->_state = $state;
     }
 
-    /**
-     * @return null
+    /** Standard Getter
+     * @return String Filename of user photo
      */
     public function getPhoto()
     {
         return $this->_photo;
     }
 
-    /**
-     * @param null $photo
+    /** Standard setter
+     * @param String $photo Filename of user photo
      */
     public function setPhoto($photo)
     {
         $this->_photo = $photo;
     }
 
-    /**
-     * @return mixed
+    /** Standard getter
+     * @return int user id
      */
     public function getId()
     {
         return $this->_id;
     }
 
-    /**
-     * @param mixed $id
+    /** Standard setter
+     * @param int $id user id
      */
     public function setId($id)
     {
         $this->_id = $id;
     }
 
-    /**
-     * @return mixed
+    /** Standard getter
+     * @return String Stored hash of password
      */
     public function getPassword()
     {
         return $this->_password;
     }
 
-    /**
-     * @param mixed $password
+    /** Setter: hashes clear text password and puts result in instance field
+     * @param String $clearText clear text password
      */
     public function setPassword($clearText)
     {
@@ -165,14 +165,18 @@ class User
         $this->_password = $pwHash;
     }
 
+    /** Verifies the provided clear-text password against the password hash of the user
+     * GLOBALS array much contain PEPPER key, which should be defined in configuration
+     * @param $clearText String The clear text password of the user
+     * @return bool
+     */
     public function passwordVerified($clearText)
     {
         $peppered = $clearText.$GLOBALS['PEPPER'];
         return password_verify($peppered, $this->getPassword());
     }
 
-
-
+    //This was not used but may be later.
 //    public function toArray(){
 //        $applicantArray = [];
 //        $applicantArray[] = $this->getId();
@@ -189,6 +193,12 @@ class User
 //        return $applicantArray;
 //    }
 
+    /** User should be instantiated without parameters
+     * Then associative array with row from users database
+     * should be passed to this method to reconstruct the user
+     * @param $assoc Array Associative array as result of $stmt->fetch(PDO::FETCH_ASSOC) from users table
+     * @return void
+     */
     public function constructFromDatabase($assoc)
     {
         $this->setId($assoc['id']);
@@ -202,7 +212,7 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return bool Whether the user is also a DJ
      */
     public function isDJ()
     {
@@ -210,7 +220,7 @@ class User
     }
 
     /**
-     * @param mixed $isDJ
+     * @param mixed $binary one or zero
      */
     public function setIsDJ($binary)
     {
@@ -218,6 +228,9 @@ class User
         $this->_isDJ = $binary == 1;
     }
 
+    /**
+     * @return bool Whether the user has an active session
+     */
     public static function isSignedIn(){
         if(!array_key_exists('user', $_SESSION)){
             return false;

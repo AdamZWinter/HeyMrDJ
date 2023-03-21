@@ -190,7 +190,8 @@ class DataLayer
     function getDJinfo($dj){
         $sql = "SELECT * FROM dj_info WHERE `id` = :id";
         $stmt = $this->_dbh->prepare($sql);
-        $stmt->bindParam(':id', $dj->getId());
+        $id = $dj->getId();
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
         //https://www.php.net/manual/en/pdo.errorinfo.php
         $this->handleStmtErrorsAPI($stmt->errorInfo());
@@ -402,15 +403,6 @@ class DataLayer
             $arrayResults[] = $row[0];
         }
         return $arrayResults;
-//        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-//        if($result['isDJ'] == 1) {
-//            $user = new DJ();
-//        }else{
-//            $user = new User();
-//        }
-//        $user->constructFromDatabase($result);
-//        return $user;
-
     }
 
 }

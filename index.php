@@ -1,7 +1,6 @@
 <?php
 //index.php
 //This is the routing controller
-
 //Turn on error reporting
 
 ini_set('display_errors', 1);
@@ -9,7 +8,7 @@ error_reporting(E_ALL);
 
 //Require autoload file
 //Do this before session start because session has an object that will not work
-// if the class has not been loaded already
+//if the class has not been loaded already
 require_once('vendor/autoload.php');
 
 //Start a session

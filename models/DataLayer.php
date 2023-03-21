@@ -40,10 +40,10 @@ class DataLayer
             $this->_responseObj->error = true;
             $this->_responseObj->message[] = 'DB error: ';
             if($errorInfo[1]){
-                $this->_responseObj->message[] = message.$errorInfo[1];
+                $this->_responseObj->message[] = $errorInfo[1];
             }
             if($errorInfo[2]){
-                $this->_responseObj->message[] = message.$errorInfo[2];
+                $this->_responseObj->message[] = $errorInfo[2];
             }
             echo json_encode($this->_responseObj);
             exit;
@@ -173,8 +173,8 @@ class DataLayer
     }
 
     function addDJinfo($dj){
-        $sql = "INSERT INTO `dj_info`(`id`, `djname`, `bio`) 
-                    VALUES (:id, :djname, :bio) ON DUPLICATE KEY UPDATE";
+        $sql = "INSERT INTO `dj_info` (`id`, `djname`, `bio`)
+                    VALUES (:id, :djname, :bio) ON DUPLICATE KEY UPDATE djname=VALUES(djname), bio=VALUES(bio)";
         $stmt = $this->_dbh->prepare($sql);
 
         $id = $dj->getId();
@@ -186,13 +186,14 @@ class DataLayer
         $stmt->bindParam(':bio', $bio);
 
         $stmt->execute();
-        //https://www.php.net/manual/en/pdo.errorinfo.php
-        $this->handleStmtErrorsAPI($stmt->errorInfo());
 
-        if($stmt->rowCount() == 1) {
+        if($stmt->rowCount() > 0) {
             $this->_responseObj->message[] = "Successfully inserted settings.";
         }else{
+            //https://www.php.net/manual/en/pdo.errorinfo.php
+            $this->handleStmtErrorsAPI($stmt->errorInfo());
             $this->_responseObj->error = true;
+            $this->_responseObj->message[] = 'Affected row count: '.$stmt->rowCount();
             $this->_responseObj->message[] = 'Error adding or updating DJ info settings in DataLayer ';
             echo json_encode($this->_responseObj);
             exit;

@@ -46,12 +46,10 @@
               <label>Biography:                    </label>
               <check if="{{ @_SESSION['user']->getBio() == null }}">
                 <true>
-                  <textarea rows="10" cols="50" class="form-control" id="bio" name="bio" placeholder="Enter some information about yourself.">
-                  </textarea>
+                  <textarea rows="10" cols="50" class="form-control" id="bio" name="bio" placeholder="Enter some information about yourself."></textarea>
                 </true>
                 <false>
-                  <textarea class="form-control" id="bio" name="bio" value="{{ @_SESSION['user']->getBio() }}">
-                  </textarea>
+                  <textarea class="form-control" id="bio" name="bio">{{ @_SESSION['user']->getBio() }}</textarea>
                 </false>
               </check>
               <br>

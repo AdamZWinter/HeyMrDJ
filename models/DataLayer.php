@@ -243,7 +243,6 @@ class DataLayer
 
     function getSongs()
     {
-
         //1. Define the query
         $sql = "SELECT * FROM playlist";
 

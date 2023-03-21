@@ -9,6 +9,43 @@
 class Music
 {
     /**
+     * Controller method for the Music   api/getSongs route GET
+     *
+     * @return void
+     */
+    static function getSongs()
+    {
+        $response = new stdClass();
+        $response->error = false;
+        //$response->message[] = 'Response message: ';
+
+//        $dataArray = [];
+//        $dataArray[] = Array('Song2', 'Blur', '4:20');
+//        $dataArray[] = Array('Give It Away', 'RHCP', '4:20');
+
+        $dataLayer = new DataLayer($response);
+        $songs = $dataLayer->getSongs();
+        //$response->message = $songs;
+
+        $dataArray = [];
+        foreach ($songs as $song){
+            $asArray = [];
+            $asArray[] = $song['name'];
+            $asArray[] = $song['artist'];
+            $asArray[] = $song['length'];
+
+            $dataArray[] = $asArray;
+        }
+
+        $response->data = $dataArray;
+        //$length = strlen($responseCopy);
+        //header('Content-Length: '.$length);
+        header('Content-type: application/json');
+
+        echo json_encode($response);
+    }
+
+    /**
      * Controller method for the Music / charts route GET
      *
      * @return void

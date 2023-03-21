@@ -293,7 +293,7 @@ class DataLayer
     {
 
         //1. Define the query
-        $sql = "SELECT * FROM playlist";
+        $sql = "SELECT * FROM songs";
 
         //2. prepare the statement
         $statement = $this->_dbh->prepare($sql);
@@ -302,6 +302,7 @@ class DataLayer
 
         //4. execute the query
         $statement->execute();
+        $this->handleStmtErrorsAPI($statement->errorInfo());
 
         //5. process the results
         return $statement->fetchAll(PDO::FETCH_ASSOC);

@@ -74,6 +74,13 @@ class Events
         echo json_encode($responseObj);
     }
 
+    /**
+     * Controller method for the Events list page route GET
+     * The page displayed is viewed only by the DJ through the dashboard
+     * and only shows the DJ their own events
+     *
+     * @return void
+     */
     static function getByDJ()
     {
         $response = new stdClass();

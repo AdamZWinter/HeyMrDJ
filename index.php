@@ -32,6 +32,7 @@ $f3->route('POST /signIn', function () use ($f3) { HomePage::postSignIn($f3); })
 //Dashboard routes
 $f3->route('GET /dashboard', function () use ($f3) { Dashboard::getDashboard($f3); });
 $f3->route('GET /dashboard/settings', function () use ($f3) { Dashboard::getDJsettings($f3); });
+$f3->route('POST /dashboard/settings', function () use ($f3) { Dashboard::postDJsettings($f3); });
 $f3->route('GET /dashboard/event/@id', function () use ($f3) { Dashboard::getDashboardEventByID($f3); });
 
 // Event routes

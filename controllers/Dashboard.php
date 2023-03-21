@@ -36,8 +36,43 @@ class Dashboard
     }
 
     static function getDJsettings($f3){
-        $dataLayer = new DataLayer();
-        $event = $dataLayer->getDJ($_SESSION['user']);
+        $view = new Template();
+        echo $view->render("views/dashboard/settings.html");
     }
 
+    /**
+     * Controller method for the dashboard/settings route POST
+     *
+     * @return void
+     */
+    static function postDJsettings()
+    {
+        $responseObj = new stdClass();
+        $responseObj->error = false;
+        $responseObj->message = [];
+        //echo $_POST['JSONpayload'];
+
+        if(!User::isSignedIn()){
+            $responseObj->error = true;
+            $responseObj->message[] = 'You must be signed into your account to do this.';
+            echo json_encode($responseObj);
+            exit;
+        }
+
+        $postedObject = new PostedObj($_POST['JSONpayload'], $responseObj);
+        //var_dump($postedObject);
+        $postedObject->validNameByField('djname');
+        $postedObject->sanitize('bio');
+        $objJSON = $postedObject->getDecodedObject();
+        //echo json_encode($objJSON);
+
+        $dj = $_SESSION['user'];
+        $dj->setDJname($objJSON->djname);
+        $dj->setBio($objJSON->bio);
+
+        $dataLayer = new DataLayer($responseObj);
+        $dataLayer->addDJinfo($dj);
+
+        echo json_encode($responseObj);
+    }
 }

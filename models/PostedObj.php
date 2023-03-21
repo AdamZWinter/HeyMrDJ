@@ -135,4 +135,32 @@ class PostedObj
         }
         $this->_responseObj->message[] = 'Date is valid';
     }//end function validName
+
+    /** Sanitizes the provided field of the decoded JSON object $_decodedObj
+     *
+     * @param $field String The field of the decoded JSON object to sanitize
+     * @return void
+     */
+    public function sanitize($field)
+    {
+        $this->_decodedObj->$field = filter_var($this->_decodedObj->$field, FILTER_SANITIZE_STRING);
+    }
+
+    /** Validates and sanitizes the provided field of the decoded JSON object $_decodedObj
+     *
+     * @param $field String The field of the decoded JSON object to sanitize and validate
+     * @return void
+     */
+    public function validNameByField($field)
+    {
+        $this->_decodedObj->$field = filter_var($this->_decodedObj->$field, FILTER_SANITIZE_STRING);
+        if(!preg_match("/^[a-zA-Z0-9 _.-]*$/", $this->_decodedObj->$field)) {
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = "$field can only contain letters, numbers, _, ., or -";
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+        $value = $this->_decodedObj->$field;
+        $this->_responseObj->message[] = "$field ($value) is valid";
+    }//end function validName
 }

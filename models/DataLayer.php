@@ -112,6 +112,8 @@ class DataLayer
         $stmt = $this->_dbh->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
+        //https://www.php.net/manual/en/pdo.errorinfo.php
+        $this->handleStmtErrorsAPI($stmt->errorInfo());
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if($result['isDJ'] == 1) {
             $user = new DJ();
@@ -146,10 +148,55 @@ class DataLayer
         }
         $user->constructFromDatabase($result);
         if($user->isDJ()){
-
+            $this->getDJinfo($user);
         }
         $this->_responseObj->message[] = "Successfully constructed user.";
         return $user;
+    }
+
+    function getDJinfo($dj){
+        $sql = "SELECT * FROM dj_info WHERE `id` = :id";
+        $stmt = $this->_dbh->prepare($sql);
+        $stmt->bindParam(':id', $dj->getId());
+        $stmt->execute();
+        //https://www.php.net/manual/en/pdo.errorinfo.php
+        $this->handleStmtErrorsAPI($stmt->errorInfo());
+
+        if($stmt->rowCount() != 1){
+//            $dj->setDJname('');
+//            $dj->setBio('');
+        }else{
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $dj->setDJname($result['djname']);
+            $dj->setBio($result['bio']);
+        }
+    }
+
+    function addDJinfo($dj){
+        $sql = "INSERT INTO `dj_info`(`id`, `djname`, `bio`) 
+                    VALUES (:id, :djname, :bio) ON DUPLICATE KEY UPDATE";
+        $stmt = $this->_dbh->prepare($sql);
+
+        $id = $dj->getId();
+        $djname = $dj->getDJname();
+        $bio = $dj->getBio();
+
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':djname', $djname);
+        $stmt->bindParam(':bio', $bio);
+
+        $stmt->execute();
+        //https://www.php.net/manual/en/pdo.errorinfo.php
+        $this->handleStmtErrorsAPI($stmt->errorInfo());
+
+        if($stmt->rowCount() == 1) {
+            $this->_responseObj->message[] = "Successfully inserted settings.";
+        }else{
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = 'Error adding or updating DJ info settings in DataLayer ';
+            echo json_encode($this->_responseObj);
+            exit;
+        }
     }
 
     function getPasswordByEmail($email)
@@ -243,6 +290,7 @@ class DataLayer
 
     function getSongs()
     {
+
         //1. Define the query
         $sql = "SELECT * FROM playlist";
 

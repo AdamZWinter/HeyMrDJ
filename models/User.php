@@ -212,9 +212,10 @@ class User
     /**
      * @param mixed $isDJ
      */
-    public function setIsDJ($isDJ)
+    public function setIsDJ($binary)
     {
-        $this->_isDJ = $isDJ;
+
+        $this->_isDJ = $binary == 1;
     }
 
     public static function isSignedIn(){

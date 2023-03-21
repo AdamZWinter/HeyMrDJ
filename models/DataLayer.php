@@ -34,6 +34,22 @@ class DataLayer
         }
     }
 
+    function handleStmtErrorsAPI($errorInfo){
+        if($errorInfo[0] != "00000"){
+            //var_dump($stmt->errorInfo());
+            $this->_responseObj->error = true;
+            $this->_responseObj->message[] = 'DB error: ';
+            if($errorInfo[1]){
+                $this->_responseObj->message[] = message.$errorInfo[1];
+            }
+            if($errorInfo[2]){
+                $this->_responseObj->message[] = message.$errorInfo[2];
+            }
+            echo json_encode($this->_responseObj);
+            exit;
+        }
+    }
+
     function insertUser($user)
     {
         //$user = new User();
@@ -62,20 +78,7 @@ class DataLayer
 
         $stmt->execute();
         //https://www.php.net/manual/en/pdo.errorinfo.php
-        $errorInfo = $stmt->errorInfo();
-        if($errorInfo[0] != "00000"){
-            //var_dump($stmt->errorInfo());
-            $this->_responseObj->error = true;
-            $this->_responseObj->message[] = 'DB error: ';
-            if($errorInfo[1]){
-                $this->_responseObj->message[] = $errorInfo[1];
-            }
-            if($errorInfo[2]){
-                $this->_responseObj->message[] = $errorInfo[2];
-            }
-            echo json_encode($this->_responseObj);
-            exit;
-        }
+        $this->handleStmtErrorsAPI($stmt->errorInfo());
 
         if($stmt->rowCount() == 1) {
             $this->_responseObj->message[] = "Successfully inserted new user.";
@@ -126,20 +129,8 @@ class DataLayer
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         //https://www.php.net/manual/en/pdo.errorinfo.php
-        $errorInfo = $stmt->errorInfo();
-        if($errorInfo[0] != "00000"){
-            //var_dump($stmt->errorInfo());
-            $this->_responseObj->error = true;
-            $this->_responseObj->message[] = 'DB error: ';
-            if($errorInfo[1]){
-                $this->_responseObj->message[] = message.$errorInfo[1];
-            }
-            if($errorInfo[2]){
-                $this->_responseObj->message[] = message.$errorInfo[2];
-            }
-            echo json_encode($this->_responseObj);
-            exit;
-        }
+        $this->handleStmtErrorsAPI($stmt->errorInfo());
+
         if($stmt->rowCount() != 1){
             $this->_responseObj->error = false;
             $this->_responseObj->message[] = 'No such email address found';
@@ -154,6 +145,9 @@ class DataLayer
             $user = new User();
         }
         $user->constructFromDatabase($result);
+        if($user->isDJ()){
+
+        }
         $this->_responseObj->message[] = "Successfully constructed user.";
         return $user;
     }
@@ -165,20 +159,8 @@ class DataLayer
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         //https://www.php.net/manual/en/pdo.errorinfo.php
-        $errorInfo = $stmt->errorInfo();
-        if($errorInfo[0] != "00000"){
-            //var_dump($stmt->errorInfo());
-            $this->_responseObj->error = true;
-            $this->_responseObj->message[] = 'DB error: ';
-            if($errorInfo[1]){
-                $this->_responseObj->message[] = message.$errorInfo[1];
-            }
-            if($errorInfo[2]){
-                $this->_responseObj->message[] = message.$errorInfo[2];
-            }
-            echo json_encode($this->_responseObj);
-            exit;
-        }
+        $this->handleStmtErrorsAPI($stmt->errorInfo());
+
         if($stmt->rowCount() != 1){
             $this->_responseObj->error = false;
             $this->_responseObj->message[] = 'No such email address found';
@@ -231,20 +213,7 @@ class DataLayer
 
         $stmt->execute();
         //https://www.php.net/manual/en/pdo.errorinfo.php
-        $errorInfo = $stmt->errorInfo();
-        if($errorInfo[0] != "00000"){
-            //var_dump($stmt->errorInfo());
-            $this->_responseObj->error = true;
-            $this->_responseObj->message[] = 'DB error: ';
-            if($errorInfo[1]){
-                $this->_responseObj->message[] = $errorInfo[1];
-            }
-            if($errorInfo[2]){
-                $this->_responseObj->message[] = $errorInfo[2];
-            }
-            echo json_encode($this->_responseObj);
-            exit;
-        }
+        $this->handleStmtErrorsAPI($stmt->errorInfo());
 
         if($stmt->rowCount() == 1) {
             $this->_responseObj->message[] = 'Successfully inserted.';
@@ -297,20 +266,7 @@ class DataLayer
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         //https://www.php.net/manual/en/pdo.errorinfo.php
-        $errorInfo = $stmt->errorInfo();
-        if($errorInfo[0] != "00000"){
-            //var_dump($stmt->errorInfo());
-            $this->_responseObj->error = true;
-            $this->_responseObj->message[] = 'DB error: ';
-            if($errorInfo[1]){
-                $this->_responseObj->message[] = message.$errorInfo[1];
-            }
-            if($errorInfo[2]){
-                $this->_responseObj->message[] = message.$errorInfo[2];
-            }
-            echo json_encode($this->_responseObj);
-            exit;
-        }
+        $this->handleStmtErrorsAPI($stmt->errorInfo());
         if($stmt->rowCount() != 1){
             $this->_responseObj->error = false;
             $this->_responseObj->message[] = 'No such event found';

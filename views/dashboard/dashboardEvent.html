@@ -1,0 +1,91 @@
+<!--register.html-->
+<!--Authors: Adam Winter -->
+<!--Date: 2023-3-14-->
+<!--Descriptions:  For new User registration-->
+
+<base href="../../">  <!--For route paths above the root: in this case /dashboard/event/id-->
+
+<include href="views/header.html"></include>  <!--This is strictly F3 syntax-->
+
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="d-sm-none d-md-block col-2">
+      <!--
+      <h1>Left Margin</h1>
+      -->
+    </div>
+
+    <div class="col-8 col-sm-12" >
+      <div class= "container-fluid">
+        <!--    -----------------------------------            MAIN     ---------------------------------------------------  -->
+
+        <div class="row">
+
+          <div class="col-md-6 col-sm-12">
+            <br>
+            <h4>Your Upcoming Events</h4>
+            <br>
+            <div id="table_div"></div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            {{ var_dump(@event) }}
+            <br>
+
+          </div>
+
+
+          <div class="col-md-6 col-sm-12">
+            <form id="form">
+              <br>
+              <h4>Add an Event</h4>
+              <label>Event Name  (64 character max):               </label>
+              <input type="text" class= "form-control" id="name" name="name">
+              <label>State:                    </label>
+              <select class="form-select" name="state" id="state">
+                <option selected>Washington</option>
+                <repeat group="{{ @states }}" key="{{ @key }}" value="{{ @state }}">
+                  <option value="{{ @key }}">{{ @state }}</option>
+                </repeat>
+                <!--  <option value="1">One</option>-->
+              </select>
+              <br>
+              <label for="date">Date:</label>
+              <input type="date" id="date" name="date">
+              <br>
+              <br>
+              <div class="d-grid gap-2">
+                <button type="button" class="rounded nextButton btn-outline-primary" id="btnAddEvent">Add Event</button>
+              </div>
+              <br>
+              <span id="submitFeedback"></span>
+            </form>
+          </div>
+
+
+        </div><!-- end row -->
+
+        <!--    -----------------------------------       END MAIN     ---------------------------------------------------  -->
+      </div><!-- end inner container-->
+    </div> <!-- between margins column-->
+
+    <div class="d-sm-none d-md-block col-2">
+      <!--
+          <h1>Right Margin</h1>
+      -->
+    </div>
+
+  </div><!-- end row -->
+</div><!-- end container -->
+
+<!--third-party scripts-->
+<script src="//code.jquery.com/jquery.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<!--My scripts-->
+<script src="JS/dashboardEvent.js"></script>
+
+<include href="views/footer.html"></include>  <!--This is strictly F3 syntax-->

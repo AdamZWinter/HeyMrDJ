@@ -74,19 +74,6 @@ class Events
         echo json_encode($responseObj);
     }
 
-    /**
-     * Controller method for the DJ Dashboard route GET
-     *
-     * @return void
-     */
-    static function getDashboard($f3)
-    {
-        $f3->set('states', DataLayer::getStates());
-        //Instantiate a view
-        $view = new Template();
-        echo $view->render("views/dashboard.html");
-    }
-
     static function getByDJ()
     {
         $response = new stdClass();
@@ -133,19 +120,5 @@ class Events
         header('Content-type: application/json');
 
         echo json_encode($response);
-    }
-
-    static function getDashboardEventByID($f3)
-    {
-        $dataLayer = new DataLayer();
-        $event = $dataLayer->getEventByID($f3->get('PARAMS.id'));
-        $f3->set('event', $event);
-//        $viewData = [];
-//        $viewData['eventID'] = $event->getId();
-//        $f3->set('viewData', $viewData);
-        //$f3->sync('SESSION');
-        //Instantiate a view
-        $view = new Template();
-        echo $view->render("views/dashboardEvent.html");
     }
 }

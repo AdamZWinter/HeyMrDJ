@@ -1,7 +1,9 @@
 <!--home.html-->
-<!--Authors: Adam Winter, Britany Torres, Gavin Sherman-->
+<!--Authors: Gavin Sherman -->
 <!--Date: 2023-3-19-->
-<!--Descriptions:  Body of the index page of the site. Playlist page for Hey Mr DJ.-->
+<!--Descriptions:  -->
+
+<base href="../">
 
 <include href="views/header.html"></include>  <!--This is strictly F3 syntax-->
 
@@ -11,22 +13,17 @@
     <br>
 
     <div class="row">
-
-        <div class="col">
-            <repeat group="{{ @songs }}" value=" {{ @song }}">
-                <p>Song: {{ @song['name'] }}<br>
-                    Length: {{ @song['length'] }}<br>
-                    Artist: {{ @song['artist'] }}
-                </p>
-
-            </repeat>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div id="table_div"></div>
         </div>
 
     </div>
 
 </div>
 <!--end container-->
-
-
+<script src="//code.jquery.com/jquery.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="JS/playlists.js"></script>
 
 <include href="views/footer.html"></include>  <!--This is strictly F3 syntax-->

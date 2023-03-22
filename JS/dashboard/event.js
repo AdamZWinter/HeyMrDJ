@@ -105,6 +105,7 @@ function drawTable03(someData) {
 
     var data = new google.visualization.DataTable();
 
+
     data.addColumn('string', 'Name');
     data.addColumn('string', 'Artist');
     data.addColumn('string', 'Length');

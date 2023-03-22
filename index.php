@@ -45,7 +45,7 @@ $f3->route('GET /api/getSongs', function () use ($f3) { Music::getSongs(); });
 
 //$f3->route('GET /playlist', function () use ($f3) { Playlist::get($f3); });
 $f3->route('GET /charts', function () use ($f3) { Music::getCharts(); });
-$f3->route('GET /playlist', function () use ($f3) { SongList::get($f3); });
+$f3->route('GET /playlist/@id', function () use ($f3) { Playlist::getPlaylistByID($f3); });
 
 //Defines route to error page
 $f3->route('GET /error', function () use ($f3) {

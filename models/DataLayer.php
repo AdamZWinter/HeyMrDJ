@@ -405,4 +405,20 @@ class DataLayer
         return $arrayResults;
     }
 
+    function getPlaylistByID($id){
+        $sql = "SELECT 'songs' FROM playlists WHERE 'id' = :id";
+        $stmt = $this->_dbh->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getSongsByID($playlist)
+    {
+        $sql = "SELECT * from songs WHERE 'id' = ";
+
+        return $playlist;
+    }
+
 }

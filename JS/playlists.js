@@ -1,48 +1,40 @@
 google.charts.load('current', {'packages':['table']});
-google.charts.setOnLoadCallback(getEvents);
+google.charts.setOnLoadCallback(getData);
 //google.charts.setOnLoadCallback(drawTable);
 
-function getEvents(){
+function getData() {
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let responseObj = JSON.parse(this.responseText);
-            if(responseObj.error  == true){
-                document.querySelector("#submitFeedback").innerHTML = '<span class="text-danger">'+responseObj.message+'</span>';
+            if (responseObj.error == true) {
+                document.querySelector("#submitFeedback").innerHTML = '<span class="text-danger">' + responseObj.message + '</span>';
                 //document.querySelector("#submitFeedback").innerHTML = '<span class="text-danger">Error.</span>';
-            }else{
+            } else {
                 //document.querySelector("#submitFeedback").innerHTML = "This is actually executing.";
                 drawTable(responseObj.data);
                 document.querySelector("#submitFeedback").innerHTML = "";
             }
-        }else{
-            document.querySelector("#submitFeedback").innerHTML = "Ready State: "+this.readyState+"  Status: "+this.status+ "  Response: "+this.responseText;
+        } else {
+            document.querySelector("#submitFeedback").innerHTML = "Ready State: " + this.readyState + "  Status: " + this.status + "  Response: " + this.responseText;
         }
     };
 
-    xhttp.open("GET", "api/dashboard/getDJEvents", true);
+    xhttp.open("GET", "api/getSongs", true);
     xhttp.setRequestHeader('Accept', 'application/json');
     xhttp.send();
+
 }
 function drawTable(someData) {
 
     var data = new google.visualization.DataTable();
 
+    data.addColumn('string', 'id');
     data.addColumn('string', 'Name');
-    data.addColumn('string', 'Date');
+    data.addColumn('string', 'Artist');
+    data.addColumn('string', 'Length');
 
-    let tableArray = [];
-    for(let eventArray of someData){
-        let eventID = eventArray[0];
-        let name = eventArray[1];
-        let date = eventArray[2];
-        let link = '<a class="listLink" href="playlist/'+eventID+'">'+name+'</a>';
-        let newEventArray = [link, date];
-        tableArray.push(newEventArray);
-    }
-
-    data.addRows(tableArray);
-
+    data.addRows(someData);
 
     var table = new google.visualization.Table(document.getElementById('table_div'));
 

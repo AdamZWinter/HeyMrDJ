@@ -23,7 +23,8 @@ class Playlist
     static function getPlaylistByID($f3)
     {
         $dataLayer = new DataLayer();
-        $songs = $dataLayer->getPlaylistByID($f3->get('PARAMS.songs'));
+        //$songs = $dataLayer->getPlaylistByID($f3->get('PARAMS.songs'));
+        $songs = [1, 2, 3];
         $f3->set('songs', $songs);
 
 

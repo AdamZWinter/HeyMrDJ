@@ -10,7 +10,10 @@ class DJ extends User
     private $_bio;
     private $_DJname;
 
-    /** Standard getter
+    /**
+     * 
+     * Standard getter
+     *
      * @return String DJ name
      */
     public function getDJname()
@@ -18,7 +21,10 @@ class DJ extends User
         return $this->_DJname;
     }
 
-    /** Standard setter
+    /**
+     * 
+     * Standard setter
+     *
      * @param String $DJname DJ name
      */
     public function setDJname($DJname)
@@ -27,7 +33,10 @@ class DJ extends User
     }
 
 
-    /** Standard getter
+    /**
+     * 
+     * Standard getter
+     *
      * @return String DJ biography
      */
     public function getBio()
@@ -35,7 +44,10 @@ class DJ extends User
         return $this->_bio;
     }
 
-    /** Standard setter
+    /**
+     * 
+     * Standard setter
+     *
      * @param String $bio DJ biography
      */
     public function setBio($bio)

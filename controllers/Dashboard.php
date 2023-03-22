@@ -36,16 +36,17 @@ class Dashboard
         $dataLayer = new DataLayer();
         $event = $dataLayer->getEventByID($f3->get('PARAMS.id'));
         $f3->set('event', $event);
-//        $viewData = [];
-//        $viewData['eventID'] = $event->getId();
-//        $f3->set('viewData', $viewData);
+        //        $viewData = [];
+        //        $viewData['eventID'] = $event->getId();
+        //        $f3->set('viewData', $viewData);
         //$f3->sync('SESSION');
         //Instantiate a view
         $view = new Template();
         echo $view->render("views/dashboard/event.html");
     }
 
-    static function getDJsettings($f3){
+    static function getDJsettings($f3)
+    {
         $view = new Template();
         echo $view->render("views/dashboard/settings.html");
     }
@@ -68,7 +69,7 @@ class Dashboard
         //echo $_POST['JSONpayload'];
 
         //Check if use is signed in and respond if not
-        if(!User::isSignedIn()){
+        if(!User::isSignedIn()) {
             $responseObj->error = true;
             $responseObj->message[] = 'You must be signed into your account to do this.';
             echo json_encode($responseObj);

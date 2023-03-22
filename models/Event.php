@@ -16,10 +16,13 @@ class Event
     private $_requestlist;
 
 
-    /** Constructor for Event
-     * @param $name String Name of event defaults to null
-     * @param $dj String email address of DJ defaults to null
-     * @param $state String state where event will be held defaults to null
+    /**
+     * 
+     * Constructor for Event
+     *
+     * @param $name     String Name of event defaults to null
+     * @param $dj       String email address of DJ defaults to null
+     * @param $state    String state where event will be held defaults to null
      * @param $dateread String YYYY-mm-dd format defaults to null
      */
     public function __construct($name = null, $dj = null, $state = null, $dateread = null)
@@ -30,11 +33,14 @@ class Event
         $this->_dateread = $dateread;
     }
 
-    /**  Constructs object by passing associative array
+    /**
+     * 
+     * Constructs object by passing associative array
      *  from selecting row from events table in database
      *
-     * @param $assoc  Array Associative array that is a single result row
-     * from selecting from events table
+     * @param $assoc Array Associative array that is a single result row
+     *               from selecting from events table
+
      * @return void
      */
     public function constructFromDatabase($assoc)
@@ -140,18 +146,20 @@ class Event
 
     /**
      * @param String $dateread human-readable date as returned from html date type input
-     * YYYY-mm-dd format
+     *                         YYYY-mm-dd format
      */
     public function setDateread($dateread)
     {
         $this->_dateread = $dateread;
     }
 
-    public function datereadToDate(){
+    public function datereadToDate()
+    {
         $this->_date = strtotime($this->getDateread());
     }
 
-    public function dateToDateread(){
+    public function dateToDateread()
+    {
         $this->_dateread = date(U, $this->getDate());
     }
 

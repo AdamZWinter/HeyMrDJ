@@ -22,9 +22,9 @@ class Music
         $response->error = false;
         //$response->message[] = 'Response message: ';
 
-//        $dataArray = [];
-//        $dataArray[] = Array('Song2', 'Blur', '4:20');
-//        $dataArray[] = Array('Give It Away', 'RHCP', '4:20');
+        //        $dataArray = [];
+        //        $dataArray[] = Array('Song2', 'Blur', '4:20');
+        //        $dataArray[] = Array('Give It Away', 'RHCP', '4:20');
 
         //Get songs from database
         $dataLayer = new DataLayer($response);

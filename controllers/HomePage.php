@@ -129,13 +129,13 @@ class HomePage
         $peppered = $postObj->password.$GLOBALS['PEPPER'];  //PEPPER is found in the configuration file next to database credentials
         unset($postObj);
         unset($_POST['JSONpayload']);
-        if(password_verify($peppered, $dataLayer->getPasswordByEmail($email))){
+        if(password_verify($peppered, $dataLayer->getPasswordByEmail($email))) {
             $_SESSION["user"] = $user;  //User Session should only be created here with successful sign in
             setcookie('fname', $user->getFname());
             setcookie('lname', $user->getLname());
-//            setcookie('email', $_SESSION["email"]);
-//            setcookie('phone', $_SESSION["phone"]);
-//            setcookie('state', $_SESSION["state"]);
+            //            setcookie('email', $_SESSION["email"]);
+            //            setcookie('phone', $_SESSION["phone"]);
+            //            setcookie('state', $_SESSION["state"]);
         }else{
             $responseObj->error = true;
             $responseObj->message[] = 'Ah ah ah, you didn say the magic word';

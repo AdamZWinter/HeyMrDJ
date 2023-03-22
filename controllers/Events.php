@@ -38,7 +38,7 @@ class Events
         //echo $_POST['JSONpayload'];
 
         //Check that user is signed in
-        if(!User::isSignedIn()){
+        if(!User::isSignedIn()) {
             $responseObj->error = true;
             $responseObj->message[] = 'You must be signed into your account to do this.';
             echo json_encode($responseObj);
@@ -64,15 +64,15 @@ class Events
         $event->setPlaylist(0);
         $event->setRequestlist(0);
 
-//        var_dump($event);
-//        exit;
+        //        var_dump($event);
+        //        exit;
 
         //insert the event into the database
         $dataLayer = new DataLayer($responseObj);
         $eventId = $dataLayer->addEvent($event);
 
         //check for database errors
-        if(!is_null($eventId) && $eventId > 0){
+        if(!is_null($eventId) && $eventId > 0) {
             $responseObj->message = [];
             $responseObj->message[] = "Event id: $eventId created.";
         }else{
@@ -104,16 +104,16 @@ class Events
         $response->message[] = 'response message';
 
         //check if user is signed in
-        if(!User::isSignedIn()){
+        if(!User::isSignedIn()) {
             $response->error = true;
             $response->message[] = 'You must be signed into your account to do this.';
             echo json_encode($response);
             exit;
         }
 
-//                $dataArray = [];
-//                $dataArray[] = Array('Event Name', '2023-3-19', 'Requests');
-//                $dataArray[] = Array('one', 'two', 'three',);
+        //                $dataArray = [];
+        //                $dataArray[] = Array('Event Name', '2023-3-19', 'Requests');
+        //                $dataArray[] = Array('one', 'two', 'three',);
 
         //Get the events data for the signed-in DJ from the database
         $dataLayer = new DataLayer();
@@ -129,10 +129,10 @@ class Events
             $asArray[] = $event->getDateread();
             //$asArray[] = $event->getRequestlist();
             //var_dump($applicant);
-//            $asArray = $event->toArray();
-//            $asArray[6] = '<a href="'.$asArray[6].'">Github</a>';
-//            $asArray[9] = '<a href="applicant/'.$id.'">Biography</a>';
-//            $asArray[10] = '<a href="applicant/'.$id.'">Profile</a>';
+            //            $asArray = $event->toArray();
+            //            $asArray[6] = '<a href="'.$asArray[6].'">Github</a>';
+            //            $asArray[9] = '<a href="applicant/'.$id.'">Biography</a>';
+            //            $asArray[10] = '<a href="applicant/'.$id.'">Profile</a>';
 
             $dataArray[] = $asArray;
         }

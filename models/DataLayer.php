@@ -1,6 +1,7 @@
 <?php
 
-/** All methods that require database queries
+/**
+ * All methods that require database queries
  *
  * @authors Adam Winter, Gavin Sherman
  */
@@ -15,15 +16,17 @@ class DataLayer
     protected $_responseObj;
     private $_dbh;  //The database connection object
 
-    /** Constructor
+    /**
+     * Constructor
+     *
      * @param $stdClassObj stdClass Object of type stdClass, should include keys error and message[] (Optional)
      */
     function __construct($stdClassObj = null)
     {
-        if($stdClassObj == null){
+        if($stdClassObj == null) {
             $this->_responseObj = new stdClass();
             $this->_responseObj->error = false;
-        }else if(!is_a($stdClassObj, stdClass::class)){
+        }else if(!is_a($stdClassObj, stdClass::class)) {
             $this->_responseObj->error = true;
             $this->_responseObj->message = [];
             $this->_responseObj->message[] = 'You can only pass an object of type stdClass to DataLayer';
@@ -49,15 +52,16 @@ class DataLayer
     }
 
     //errorsinfo is array from PDO statement->errorInfo()
-    private function handleStmtErrorsAPI($errorInfo){
-        if($errorInfo[0] != "00000"){
+    private function handleStmtErrorsAPI($errorInfo)
+    {
+        if($errorInfo[0] != "00000") {
             //var_dump($stmt->errorInfo());
             $this->_responseObj->error = true;
             $this->_responseObj->message[] = 'DB error: ';
-            if($errorInfo[1]){
+            if($errorInfo[1]) {
                 $this->_responseObj->message[] = $errorInfo[1];
             }
-            if($errorInfo[2]){
+            if($errorInfo[2]) {
                 $this->_responseObj->message[] = $errorInfo[2];
             }
             echo json_encode($this->_responseObj);
@@ -65,7 +69,9 @@ class DataLayer
         }
     }
 
-    /** Inserts new User into database
+    /**
+     * Inserts new User into database
+     *
      * @param $user User New User to insert to database
      */
     function insertUser($user)
@@ -110,7 +116,9 @@ class DataLayer
         }
     }
 
-    /** Get array of all user id's
+    /**
+     * Get array of all user id's
+     *
      * @return array An array of all the user ID's of all the users
      */
     function getAllUserIDs()
@@ -127,8 +135,10 @@ class DataLayer
         return $arrayResults;
     }
 
-    /** Returns the DJ or User class object from the provided user id
-     * @param $id int the id of the DJ or User you want to instantiate and object for
+    /**
+     * Returns the DJ or User class object from the provided user id
+     *
+     * @param  $id int the id of the DJ or User you want to instantiate and object for
      * @return DJ|User The DJ or User object from the provided id
      */
     function getUserByID($id)
@@ -149,8 +159,10 @@ class DataLayer
         return $user;
     }
 
-    /** Returns the DJ or User class object from the provided user email
-     * @param $email String The email address of the DJ or User you want to instantiate and object for
+    /**
+     * Returns the DJ or User class object from the provided user email
+     *
+     * @param  $email String The email address of the DJ or User you want to instantiate and object for
      * @return DJ|User|void The DJ or User object from the provided email address
      */
     function getUserByEmail($email)
@@ -162,7 +174,7 @@ class DataLayer
         //https://www.php.net/manual/en/pdo.errorinfo.php
         $this->handleStmtErrorsAPI($stmt->errorInfo());
 
-        if($stmt->rowCount() != 1){
+        if($stmt->rowCount() != 1) {
             $this->_responseObj->error = false;
             $this->_responseObj->message[] = 'No such email address found';
             $this->_responseObj->emailExists = false;
@@ -176,18 +188,21 @@ class DataLayer
             $user = new User();
         }
         $user->constructFromDatabase($result);
-        if($user->isDJ()){
+        if($user->isDJ()) {
             $this->getDJinfo($user);
         }
         $this->_responseObj->message[] = "Successfully constructed user.";
         return $user;
     }
 
-    /** Sets the additional/extended fields (from User) for DJ, from database
-     * @param $dj DJ The DJ object that does not have the additional DJ fields set yet
+    /**
+     * Sets the additional/extended fields (from User) for DJ, from database
+     *
+     * @param  $dj DJ The DJ object that does not have the additional DJ fields set yet
      * @return void
      */
-    function getDJinfo($dj){
+    function getDJinfo($dj)
+    {
         $sql = "SELECT * FROM dj_info WHERE `id` = :id";
         $stmt = $this->_dbh->prepare($sql);
         $id = $dj->getId();
@@ -196,9 +211,9 @@ class DataLayer
         //https://www.php.net/manual/en/pdo.errorinfo.php
         $this->handleStmtErrorsAPI($stmt->errorInfo());
 
-        if($stmt->rowCount() != 1){
-//            $dj->setDJname('');
-//            $dj->setBio('');
+        if($stmt->rowCount() != 1) {
+            //            $dj->setDJname('');
+            //            $dj->setBio('');
         }else{
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             $dj->setDJname($result['djname']);
@@ -206,14 +221,16 @@ class DataLayer
         }
     }
 
-    /**  For use in updating or creating DJ info:
+    /**
+     * For use in updating or creating DJ info:
      * the additional/extended fields (from User) for DJ
      * database query updates on existing key: id
      *
-     * @param $dj DJ The DJ object that does not have the additional DJ fields set yet
+     * @param  $dj DJ The DJ object that does not have the additional DJ fields set yet
      * @return void
      */
-    function addDJinfo($dj){
+    function addDJinfo($dj)
+    {
         $sql = "INSERT INTO `dj_info` (`id`, `djname`, `bio`)
                     VALUES (:id, :djname, :bio) ON DUPLICATE KEY UPDATE djname=VALUES(djname), bio=VALUES(bio)";
         $stmt = $this->_dbh->prepare($sql);
@@ -241,8 +258,10 @@ class DataLayer
         }
     }
 
-    /**  Fetches the password hash of the user by the provided email address
-     * @param $email String The email addres of the user
+    /**
+     * Fetches the password hash of the user by the provided email address
+     *
+     * @param  $email String The email addres of the user
      * @return mixed|void
      */
     function getPasswordByEmail($email)
@@ -254,7 +273,7 @@ class DataLayer
         //https://www.php.net/manual/en/pdo.errorinfo.php
         $this->handleStmtErrorsAPI($stmt->errorInfo());
 
-        if($stmt->rowCount() != 1){
+        if($stmt->rowCount() != 1) {
             $this->_responseObj->error = false;
             $this->_responseObj->message[] = 'No such email address found';
             $this->_responseObj->emailExists = false;
@@ -265,7 +284,9 @@ class DataLayer
         return $result['password'];
     }
 
-    /** Returns index key value pair array of states ex.  1 => Alabama
+    /**
+     * Returns index key value pair array of states ex.  1 => Alabama
+     *
      * @return array
      */
     static function getStates()
@@ -280,9 +301,10 @@ class DataLayer
         return $states;
     }
 
-    /**  Inserts new event into the database
+    /**
+     * Inserts new event into the database
      *
-     * @param $event Event The event to add to the database
+     * @param  $event Event The event to add to the database
      * @return String JSON encoded response with error and message[] keys
      */
     function addEvent($event)
@@ -327,7 +349,8 @@ class DataLayer
         }
     }
 
-    function addSong($song){
+    function addSong($song)
+    {
 
         //1. Define the query
         $sql= "INSERT INTO `playlist`(`name`, `length`, `artist`) 
@@ -361,8 +384,10 @@ class DataLayer
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /** Reconstructs and Event object from the database by event id
-     * @param $id int The event ID to reconstruct from the database
+    /**
+     * Reconstructs and Event object from the database by event id
+     *
+     * @param  $id int The event ID to reconstruct from the database
      * @return Event|void  The Event object
      */
     function getEventByID($id)
@@ -373,7 +398,7 @@ class DataLayer
         $stmt->execute();
         //https://www.php.net/manual/en/pdo.errorinfo.php
         $this->handleStmtErrorsAPI($stmt->errorInfo());
-        if($stmt->rowCount() != 1){
+        if($stmt->rowCount() != 1) {
             $this->_responseObj->error = false;
             $this->_responseObj->message[] = 'No such event found';
             echo json_encode($this->_responseObj);
@@ -386,8 +411,10 @@ class DataLayer
         return $event;
     }
 
-    /** Gets data for all events owned by the DJ indicated by email address
-     * @param $email String The email address of the DJ
+    /**
+     * Gets data for all events owned by the DJ indicated by email address
+     *
+     * @param  $email String The email address of the DJ
      * @return array An array of arrays that are the event data
      */
     function getEventsByDJ($email)

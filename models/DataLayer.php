@@ -433,31 +433,42 @@ class DataLayer
     }
 
     function getPlaylistByID($id){
-        $sql = "SELECT 'songs' FROM playlists WHERE 'id' = :id";
+        $sql = "SELECT 'songs' FROM playlists WHERE id = :id";
         $stmt = $this->_dbh->prepare($sql);
-        $id = 1;                                //For testing only *************************************************
+//        $id = 1;                                //For testing only *************************************************
         $stmt->bindParam(':id', $id);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $this->handleStmtErrorsAPI($stmt->errorInfo());
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        var_dump($result);
+
+        $playlistString = $result['songs'];
+
+        $songsArray = explode(", ", $playlistString);
+
+        return $songsArray;
     }
 
-    function getSongsByID()
+    function getSongByID($id)
     {
         //1. Define the query
-        $sql = "SELECT * from songs WHERE id = 4";
+        $sql = "SELECT * from songs WHERE id = :id";
 
         //2. prepare the statement
         $statement = $this->_dbh->prepare($sql);
 
         //3. Bind the parameters
+        $statement->bindParam(':id', $id);
 
         //4. execute the query
         $statement->execute();
         $this->handleStmtErrorsAPI($statement->errorInfo());
 
         //5. process the results
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
 }

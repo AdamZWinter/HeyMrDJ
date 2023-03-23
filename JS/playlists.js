@@ -6,8 +6,9 @@ function getData() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            let responseObj;
             try {
-                let responseObj = JSON.parse(this.responseText);
+               responseObj = JSON.parse(this.responseText);
             } catch(error){
                 console.log('Error parsing JSON:', error, this.responseText);
             }
@@ -25,7 +26,7 @@ function getData() {
         }
     };
 
-    xhttp.open("GET", "api/getSongsByID", true);
+    xhttp.open("GET", "api/getSongsByEventID", true);
     xhttp.setRequestHeader('Accept', 'application/json');
     xhttp.send();
 

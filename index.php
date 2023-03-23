@@ -42,6 +42,7 @@ $f3->route('GET /events', function (){ Events::get(); });
 
 //Playlist routes
 $f3->route('GET /api/getSongs', function () use ($f3) { Music::getSongs(); });
+$f3->route('GET /api/getSongsByID', function () use ($f3) { Playlist::getSongsByID(); });
 
 //$f3->route('GET /playlist', function () use ($f3) { Playlist::get($f3); });
 $f3->route('GET /charts', function () use ($f3) { Music::getCharts(); });

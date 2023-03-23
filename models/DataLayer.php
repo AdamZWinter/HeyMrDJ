@@ -442,11 +442,22 @@ class DataLayer
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function getSongsByID($playlist)
+    function getSongsByID()
     {
-        $sql = "SELECT * from songs WHERE 'id' = ";
+        //1. Define the query
+        $sql = "SELECT * from songs WHERE id = 4";
 
-        return $playlist;
+        //2. prepare the statement
+        $statement = $this->_dbh->prepare($sql);
+
+        //3. Bind the parameters
+
+        //4. execute the query
+        $statement->execute();
+        $this->handleStmtErrorsAPI($statement->errorInfo());
+
+        //5. process the results
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

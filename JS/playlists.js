@@ -3,6 +3,10 @@ google.charts.setOnLoadCallback(getData);
 //google.charts.setOnLoadCallback(drawTable);
 
 function getData() {
+    let eventID= document.querySelector("#eventid").value;
+
+    console.log(eventID);
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -26,11 +30,13 @@ function getData() {
         }
     };
 
-    xhttp.open("GET", "api/getSongsByEventID", true);
+    let url = "api/getSongsByEventID?eventid=" + eventID;
+    xhttp.open("GET", url, true);
     xhttp.setRequestHeader('Accept', 'application/json');
     xhttp.send();
 
 }
+
 function drawTable(someData) {
 
     var data = new google.visualization.DataTable();

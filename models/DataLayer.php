@@ -433,7 +433,7 @@ class DataLayer
     }
 
     function getPlaylistByID($id){
-        $sql = "SELECT 'songs' FROM playlists WHERE id = :id";
+        $sql = "SELECT `songs` FROM playlists WHERE id = :id";
         $stmt = $this->_dbh->prepare($sql);
 //        $id = 1;                                //For testing only *************************************************
         $stmt->bindParam(':id', $id);
@@ -443,7 +443,7 @@ class DataLayer
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        var_dump($result);
+        //var_dump($result);
 
         $playlistString = $result['songs'];
 

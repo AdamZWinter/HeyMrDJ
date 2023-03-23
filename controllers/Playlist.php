@@ -22,20 +22,15 @@ class Playlist
     static function getPlaylistByID($f3)
     {
         $dataLayer = new DataLayer();
-        //$songs = $dataLayer->getPlaylistByID($f3->get('PARAMS.songs'));
-        //$songs = [1, 2, 3];
 
-        //$songs = $dataLayer->getSongByID();
-//        $f3->set('songs', $songs);
-        //$playlistArray = $dataLayer->getPlaylistByID(1);
-
-        //var_dump($playlistArray);
+        //params id passed directly to view
+//        $eventID = $f3->get('PARAMS.id');
+//        $f3->set('eventID', $eventID);
 
         //Instantiate a view
         $view = new Template();
         echo $view->render("views/playlist.html");
     }
-
 
 
     static function getSongsByEventID(){
@@ -51,7 +46,9 @@ class Playlist
         //Get songs from database
         $dataLayer = new DataLayer($response);
 
-        $songs = $dataLayer->getPlaylistByID(1);
+//        var_dump($_GET);
+
+        $songs = $dataLayer->getPlaylistByID($_GET['eventid']);
 
         //var_dump($songs);
 
